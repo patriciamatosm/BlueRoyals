@@ -3,9 +3,10 @@ package es.uah.events.events.model;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
-@Table(name = "events")
+@Table(name = "event")
 @NamedQueries({
         @NamedQuery(name = "Events.findAll", query = "SELECT r FROM Events r"),
         @NamedQuery(name = "Events.findById", query = "SELECT r FROM Events r WHERE r.id = :id"),
@@ -21,14 +22,17 @@ public class Events implements Serializable {
     private int maxUser;
 
     @Column(name = "event_name")
-    private String movie;
+    private String eventName;
 
     @Column(name = "create_user")
     private String createUser;
 
     @Column(name = "create_date")
     @Temporal(TemporalType.TIMESTAMP)
-    private int createDate;
+    private Date createDate;
+
+    @Column(name = "is_delete")
+    private Boolean isDelete;
 
     public Events() {
     }
@@ -37,12 +41,13 @@ public class Events implements Serializable {
         this.id = id;
     }
 
-    public Events(Integer id, int maxUser, String movie, String createUser, int createDate) {
+    public Events(Integer id, int maxUser, String eventName, String createUser, Date createDate, Boolean isDelete) {
         this.id = id;
         this.maxUser = maxUser;
-        this.movie = movie;
+        this.eventName = eventName;
         this.createUser = createUser;
         this.createDate = createDate;
+        this.isDelete = isDelete;
     }
 
     public Integer getId() {
@@ -61,12 +66,12 @@ public class Events implements Serializable {
         this.maxUser = maxUser;
     }
 
-    public String getMovie() {
-        return movie;
+    public String getEventName() {
+        return eventName;
     }
 
-    public void setMovie(String movie) {
-        this.movie = movie;
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
     }
 
     public String getCreateUser() {
@@ -77,11 +82,19 @@ public class Events implements Serializable {
         this.createUser = createUser;
     }
 
-    public int getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(int createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public Boolean getDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(Boolean delete) {
+        isDelete = delete;
     }
 }

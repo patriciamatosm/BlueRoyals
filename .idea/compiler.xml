@@ -8,15 +8,19 @@
         <outputRelativeToContentRoot value="true" />
         <module name="client" />
         <module name="subscription" />
+        <module name="eurekaServer" />
         <module name="users" />
         <module name="events" />
+        <module name="gateway" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="client" options="-parameters" />
+      <module name="eurekaServer" options="-parameters" />
       <module name="events" options="-parameters" />
+      <module name="gateway" options="-parameters" />
       <module name="subscription" options="-parameters" />
       <module name="users" options="-parameters" />
     </option>

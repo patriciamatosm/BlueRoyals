@@ -8,10 +8,15 @@
         <option value="$PROJECT_DIR$/client/client/pom.xml" />
         <option value="$PROJECT_DIR$/events/events/pom.xml" />
         <option value="$PROJECT_DIR$/subscription/subscription/pom.xml" />
+        <option value="$PROJECT_DIR$/eurekaServer/eurekaServer/pom.xml" />
+        <option value="$PROJECT_DIR$/gateway/pom.xml" />
       </list>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="jpab" />
   </component>
 </project>
