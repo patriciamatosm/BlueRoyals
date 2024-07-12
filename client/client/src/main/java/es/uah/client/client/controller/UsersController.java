@@ -19,7 +19,7 @@ public class UsersController {
     public String home(Model model) {
         User u = new User();
         model.addAttribute("user", u);
-        return "login";
+        return "forward:/vaadin/";
     }
 
     @GetMapping(value = {"/index"})
@@ -46,16 +46,13 @@ public class UsersController {
     }
 
     @PostMapping("/login/")
-    public String login(Model model, User user, RedirectAttributes attributes) {
+    @ResponseBody
+    public Boolean login(@RequestBody User user) {
         Boolean result = userService.login(user.getUsername(), user.getPassword());
         if(!result){
-            model.addAttribute("title", "Login");
-            attributes.addFlashAttribute("msg", "Error en el login");
-            return "login";
+            return false;
         }
-        model.addAttribute("title", "BlueRoyals");
-        attributes.addFlashAttribute("msg", "Login exitoso!");
-        return "home";
+        return true;
     }
 
     @GetMapping("/update/{id}")

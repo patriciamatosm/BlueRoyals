@@ -55,6 +55,42 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>flow-server</artifactId>
+            <version>24.4.4</version>
+            <scope>compile</scope>
+        </dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-ordered-layout-flow</artifactId>
+			<version>24.4.5</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-form-layout-flow</artifactId>
+			<version>24.4.5</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-button-flow</artifactId>
+			<version>24.4.5</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-notification-flow</artifactId>
+			<version>24.4.5</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-text-field-flow</artifactId>
+			<version>24.4.5</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
