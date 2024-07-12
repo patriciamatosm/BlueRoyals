@@ -7,6 +7,8 @@ import java.util.List;
 public interface ISubscriptionsDAO {
     List<Subscriptions> findAll();
 
+    Subscriptions findById(Integer id);
+
     List<Subscriptions> findSubscriptionsByEvent(Integer idEvent);
 
     List<Subscriptions> findUserSubscriptions(Integer idUser);

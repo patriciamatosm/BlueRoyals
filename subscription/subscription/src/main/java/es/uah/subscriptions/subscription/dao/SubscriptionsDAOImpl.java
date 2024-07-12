@@ -4,6 +4,7 @@ import es.uah.subscriptions.subscription.model.Subscriptions;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
 
 public class SubscriptionsDAOImpl implements ISubscriptionsDAO{
 
@@ -13,6 +14,12 @@ public class SubscriptionsDAOImpl implements ISubscriptionsDAO{
     @Override
     public List<Subscriptions> findAll() {
         return subscriptionsJPA.findAll();
+    }
+
+    @Override
+    public Subscriptions findById(Integer id) {
+        Optional<Subscriptions> optional = subscriptionsJPA.findById(id);
+        return optional.orElse(null);
     }
 
     @Override

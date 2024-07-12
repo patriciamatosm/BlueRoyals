@@ -19,6 +19,11 @@ public class SubscriptionsServiceImpl implements ISubscriptionsService{
     }
 
     @Override
+    public Subscriptions findSubscriptionById(Integer id) {
+        return subscriptionsDAO.findById(id);
+    }
+
+    @Override
     public List<Subscriptions> findSubscriptionsByEvent(Integer idEvent) {
         return subscriptionsDAO.findSubscriptionsByEvent(idEvent);
     }

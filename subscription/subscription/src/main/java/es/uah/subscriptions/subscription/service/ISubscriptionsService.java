@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface ISubscriptionsService {
     List<Subscriptions> findAll();
+    Subscriptions findSubscriptionById(Integer id);
 
     List<Subscriptions> findSubscriptionsByEvent(Integer idEvent);
 
