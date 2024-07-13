@@ -38,11 +38,9 @@ public class UsersController {
     }
 
     @PostMapping("/save/")
-    public String save(Model model, User r, RedirectAttributes attributes) {
-        userService.saveUser(r);
-        model.addAttribute("title", "Nuevo usuario");
-        attributes.addFlashAttribute("msg", "El usuario ha sido creado correctamente!");
-        return "login";
+    public User save(@RequestBody User user) {
+        userService.saveUser(user);
+        return (User) userService.findUsersByUsername(user.getUsername());
     }
 
     @PostMapping("/login/")
