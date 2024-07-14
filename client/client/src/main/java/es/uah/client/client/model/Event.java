@@ -9,11 +9,41 @@ public class Event {
 
     private String eventName;
 
-    private String createUser;
+    private Integer createUser;
 
     private Date createDate;
 
     private Boolean isDelete;
+
+
+    private Date eventDate;
+    private String description;
+    private String location;
+
+    public Date getEventDate() {
+        return eventDate;
+    }
+
+    public void setEventDate(Date eventDate) {
+        this.eventDate = eventDate;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
     public Event() {
     }
@@ -42,14 +72,6 @@ public class Event {
         this.eventName = eventName;
     }
 
-    public String getCreateUser() {
-        return createUser;
-    }
-
-    public void setCreateUser(String createUser) {
-        this.createUser = createUser;
-    }
-
     public Date getCreateDate() {
         return createDate;
     }
@@ -64,5 +86,13 @@ public class Event {
 
     public void setDelete(Boolean delete) {
         isDelete = delete;
+    }
+
+    public Integer getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(Integer createUser) {
+        this.createUser = createUser;
     }
 }

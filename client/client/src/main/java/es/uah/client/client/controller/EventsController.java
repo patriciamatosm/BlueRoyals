@@ -22,63 +22,18 @@ public class EventsController {
     @Autowired
     IEventsService eventsService;
 
-    @GetMapping(value = {"/", "/home", ""})
-    public String home(Model model) {
-        Event event = new Event();
-        model.addAttribute("event", event);
-        return "login";
-    }
-
-    @GetMapping(value = {"/index"})
-    public String home2(Model model) {
-        Event movie = new Event();
-        model.addAttribute("Event", movie);
-        return "home";
-    }
-    @GetMapping("/list")
-    public String list(Model model, @RequestParam(name = "page", defaultValue = "0") int page) {
-        Pageable pageable = PageRequest.of(page, 5);
-        Page<Event> listado = eventsService.findAll(pageable);
-        PageRender<Event> pageRender = new PageRender<Event>("/events/list", listado);
-        model.addAttribute("title", "Eventos");
-        model.addAttribute("listEvent", listado);
-        model.addAttribute("page", pageRender);
-        return "Event/listEvent";
-    }
 
     @GetMapping("/listAll")
     public List<Event> findAll() {
         return eventsService.findAll();
     }
 
-    @GetMapping("/new")
-    public String nuevo(Model model) {
-        model.addAttribute("title", "Nuevo evento");
-        Event event = new Event();
-        model.addAttribute("Event", event);
-        return "register";
-    }
-
     @PostMapping("/save/")
-    public String save(Model model, Event r, RedirectAttributes attributes) {
+    @ResponseBody
+    public Event save(@RequestBody  Event r) {
         eventsService.saveEvents(r);
-        model.addAttribute("title", "Nuevo evento");
-        attributes.addFlashAttribute("msg", "El evento ha sido creado correctamente!");
-        return "redirect:/events/list";
+        return (Event) eventsService.findEventsByEventName(r.getEventName());
     }
 
-    @GetMapping("/update/{id}")
-    public String updateEvent(Model model, @PathVariable("id") Integer id) {
-        Event Event = eventsService.findEventsById(id);
-        model.addAttribute("title", "Editar evento");
-        model.addAttribute("Event", Event);
-        return "register";
-    }
 
-    @GetMapping("/delete/{id}")
-    public String deleteEvent(Model model, @PathVariable("id") Integer id, RedirectAttributes attributes) {
-        eventsService.deleteEvents(id);
-        attributes.addFlashAttribute("msg", "El evento ha sido eliminado!");
-        return "redirect:/events/list";
-    }
 }

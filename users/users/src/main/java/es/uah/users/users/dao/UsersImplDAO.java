@@ -50,10 +50,10 @@ public class UsersImplDAO implements  IUsersDAO{
     }
 
     @Override
-    public Boolean login(String username, String password) {
+    public Users login(String username, String password) {
         Users user = usersJPA.findByUsername(username);
-        if(user == null) return false;
+        if(user == null || (!user.getPassword().equals(password))) return null;
 
-        return user.getPassword().equals(password);
+        return user;
     }
 }

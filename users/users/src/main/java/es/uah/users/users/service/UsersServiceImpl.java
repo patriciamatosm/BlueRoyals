@@ -48,7 +48,7 @@ public class UsersServiceImpl implements IUsersService{
     }
 
     @Override
-    public Boolean login(String username, String password) {
+    public Users login(String username, String password) {
         return usersDAO.login(username, password);
     }
 }

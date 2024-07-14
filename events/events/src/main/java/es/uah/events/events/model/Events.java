@@ -24,12 +24,22 @@ public class Events implements Serializable {
     @Column(name = "event_name")
     private String eventName;
 
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "location")
+    private String location;
+
     @Column(name = "create_user")
-    private String createUser;
+    private Integer createUser;
 
     @Column(name = "create_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
+
+    @Column(name = "event_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date eventDate;
 
     @Column(name = "is_delete")
     private Boolean isDelete;
@@ -41,12 +51,15 @@ public class Events implements Serializable {
         this.id = id;
     }
 
-    public Events(Integer id, int maxUser, String eventName, String createUser, Date createDate, Boolean isDelete) {
+    public Events(Integer id, int maxUser, String eventName, String description, String location, Integer createUser, Date createDate, Date eventDate, Boolean isDelete) {
         this.id = id;
         this.maxUser = maxUser;
         this.eventName = eventName;
+        this.description = description;
+        this.location = location;
         this.createUser = createUser;
         this.createDate = createDate;
+        this.eventDate = eventDate;
         this.isDelete = isDelete;
     }
 
@@ -74,11 +87,11 @@ public class Events implements Serializable {
         this.eventName = eventName;
     }
 
-    public String getCreateUser() {
+    public Integer getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(String createUser) {
+    public void setCreateUser(Integer createUser) {
         this.createUser = createUser;
     }
 
@@ -96,5 +109,29 @@ public class Events implements Serializable {
 
     public void setDelete(Boolean delete) {
         isDelete = delete;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getEventDate() {
+        return eventDate;
+    }
+
+    public void setEventDate(Date eventDate) {
+        this.eventDate = eventDate;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

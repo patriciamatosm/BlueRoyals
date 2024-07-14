@@ -17,5 +17,5 @@ public interface IUsersService {
 
     void deleteUser(Integer id);
 
-    Boolean login(String username, String password);
+    User login(String username, String password);
 }

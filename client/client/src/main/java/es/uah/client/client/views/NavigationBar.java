@@ -1,4 +1,4 @@
-package es.uah.client.client.frontend;
+package es.uah.client.client.views;
 
 
 import com.vaadin.flow.component.html.*;

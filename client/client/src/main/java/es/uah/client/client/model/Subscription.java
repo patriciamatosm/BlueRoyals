@@ -7,6 +7,14 @@ public class Subscription {
 
     private int idUser;
 
+    private Boolean isDelete;
+
+    public Subscription(int idEvent, int idUser, Boolean isDelete) {
+        this.idEvent = idEvent;
+        this.idUser = idUser;
+        this.isDelete = isDelete;
+    }
+
     public Subscription() {
     }
 
@@ -33,5 +41,13 @@ public class Subscription {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Boolean getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Boolean isDelete) {
+        this.isDelete = isDelete;
     }
 }

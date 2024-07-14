@@ -1,4 +1,4 @@
-package es.uah.client.client.frontend;
+package es.uah.client.client.views;
 
 
 import com.vaadin.flow.component.button.Button;
@@ -12,6 +12,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.spring.annotation.UIScope;
 import es.uah.client.client.controller.UsersController;
 import es.uah.client.client.model.User;
@@ -88,9 +89,12 @@ public class Home extends VerticalLayout {
                 user.setUsername(username);
                 user.setPassword(password);
 
-                Boolean isAuthenticated = userController.login(user);
-                if (Boolean.TRUE.equals(isAuthenticated)) {
+                User userLogged = userController.login(user);
+                if (userLogged != null) {
                     Notification.show("Login successful");
+                    VaadinSession.getCurrent().setAttribute(User.class, userLogged);
+                    User uSesssion = (User) VaadinSession.getCurrent().getAttribute(User.class);
+                    System.out.println("USER: " + uSesssion);
                     getUI().ifPresent(ui -> ui.navigate("index"));
                 } else {
                     Notification.show("Invalid credentials", 3000, Notification.Position.MIDDLE);

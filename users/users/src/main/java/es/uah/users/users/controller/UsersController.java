@@ -23,7 +23,7 @@ public class UsersController {
     }
 
     @GetMapping("/users/login/{username}/{password}")
-    public Boolean login(@PathVariable("username") String username, @PathVariable("password") String password) {
+    public Users login(@PathVariable("username") String username, @PathVariable("password") String password) {
         System.out.println("Service " + username + " " + password);
         return usersService.login(username, password);
     }

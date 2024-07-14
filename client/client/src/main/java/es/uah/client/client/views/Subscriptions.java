@@ -1,4 +1,4 @@
-package es.uah.client.client.frontend;
+package es.uah.client.client.views;
 
 
 import com.vaadin.flow.component.button.Button;
@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 @UIScope
-@Route("create-event")
-public class CreateEvent extends VerticalLayout {
+@Route("subscriptions")
+public class Subscriptions extends VerticalLayout {
 
-    public CreateEvent() {
+    public Subscriptions() {
         setSizeFull();
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
@@ -20,6 +20,7 @@ public class CreateEvent extends VerticalLayout {
         NavigationBar navigationBar = new NavigationBar();
         add(navigationBar);
 
+        // Add components to list subscriptions here
 
         Button backButton = new Button("Back to Dashboard", e -> getUI().ifPresent(ui -> ui.navigate("index")));
         add(backButton);

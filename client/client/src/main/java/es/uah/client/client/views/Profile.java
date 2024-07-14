@@ -1,5 +1,4 @@
-package es.uah.client.client.frontend;
-
+package es.uah.client.client.views;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -9,10 +8,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 @UIScope
-@Route("subscriptions")
-public class Subscriptions extends VerticalLayout {
+@Route("profile")
+public class Profile extends VerticalLayout {
 
-    public Subscriptions() {
+    public Profile() {
         setSizeFull();
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
@@ -20,7 +19,7 @@ public class Subscriptions extends VerticalLayout {
         NavigationBar navigationBar = new NavigationBar();
         add(navigationBar);
 
-        // Add components to list subscriptions here
+        // Add profile form components here
 
         Button backButton = new Button("Back to Dashboard", e -> getUI().ifPresent(ui -> ui.navigate("index")));
         add(backButton);

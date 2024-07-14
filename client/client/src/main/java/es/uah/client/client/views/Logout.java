@@ -1,4 +1,4 @@
-package es.uah.client.client.frontend;
+package es.uah.client.client.views;
 
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.router.Route;
@@ -12,10 +12,11 @@ import org.springframework.stereotype.Component;
 public class Logout extends Div {
 
     public Logout() {
-        VaadinSession.getCurrent().getSession().invalidate();
-        VaadinSession.getCurrent().close();
+
 
         getUI().ifPresent(ui -> ui.navigate("index"));
 
+        VaadinSession.getCurrent().getSession().invalidate();
+        VaadinSession.getCurrent().close();
     }
 }

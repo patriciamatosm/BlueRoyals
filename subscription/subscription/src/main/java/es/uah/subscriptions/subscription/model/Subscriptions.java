@@ -22,12 +22,16 @@ public class Subscriptions implements Serializable {
     @Column(name = "id_user")
     private int idUser;
 
+    @Column(name = "is_delete")
+    private Boolean isDelete;
+
     public Subscriptions() {
     }
 
     public Subscriptions(int idEvent, int idUser) {
         this.idEvent = idEvent;
         this.idUser = idUser;
+        this.isDelete = false;
     }
 
     public int getIdEvent() {
@@ -44,5 +48,13 @@ public class Subscriptions implements Serializable {
 
     public void setIdUser(int idUser) {
         this.idUser = idUser;
+    }
+
+    public Boolean getDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(Boolean delete) {
+        isDelete = delete;
     }
 }

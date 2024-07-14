@@ -19,5 +19,5 @@ public interface IUsersService {
 
     void updateUser(Users user);
 
-    Boolean login(String username, String password);
+    Users login(String username, String password);
 }

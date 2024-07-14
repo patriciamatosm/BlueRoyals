@@ -54,7 +54,7 @@ public class UsersServiceImpl implements IUsersService{
     }
 
     @Override
-    public Boolean login(String username, String password) {
-        return template.getForObject(url + "/login/" + username + "/" + password, Boolean.class);
+    public User login(String username, String password) {
+        return template.getForObject(url + "/login/" + username + "/" + password, User.class);
     }
 }
