@@ -13,7 +13,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-@Controller
+import java.util.List;
+
+@RestController
 @RequestMapping("/events")
 public class EventsController {
 
@@ -42,6 +44,11 @@ public class EventsController {
         model.addAttribute("listEvent", listado);
         model.addAttribute("page", pageRender);
         return "Event/listEvent";
+    }
+
+    @GetMapping("/listAll")
+    public List<Event> findAll() {
+        return eventsService.findAll();
     }
 
     @GetMapping("/new")

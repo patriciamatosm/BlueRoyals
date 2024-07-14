@@ -5,17 +5,21 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.spring.annotation.UIScope;
 import es.uah.client.client.controller.UsersController;
 import es.uah.client.client.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.stereotype.Component;
 
+@Component
+@UIScope
 @Route("")
 public class Home extends VerticalLayout {
 
@@ -24,26 +28,33 @@ public class Home extends VerticalLayout {
 
     private final Div loginFormContainer;
     private final Div registrationFormContainer;
-    private Div welcomeMessage;
+    private H1  welcomeMessage;
+    private H2  loginMessage;
 
     public Home() {
         setSizeFull();
         getStyle().set("padding-top", "50px");
+        //getStyle().set("background-color", "#b7d0e1");
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
-        NavigationBar navigationBar = new NavigationBar();
-        welcomeMessage = new Div();
+        //NavigationBar navigationBar = new NavigationBar();
+        welcomeMessage = new H1("Welcome to BlueRoyals!");
+        loginMessage = new H2("Log In.");
         loginFormContainer = new Div();
         registrationFormContainer = new Div();
         registrationFormContainer.setVisible(false);
 
-        welcomeMessage.setText("Welcome to BlueRoyals!");
         welcomeMessage.getStyle().set("font-size", "24px");
         welcomeMessage.getStyle().set("font-weight", "bold");
         welcomeMessage.getStyle().set("color", "#007bff");
         welcomeMessage.getStyle().set("text-align", "center");
+        welcomeMessage.getStyle().set("margin-bottom", "20px");
 
+        loginMessage.getStyle().set("font-size", "24px");
+        loginMessage.getStyle().set("font-weight", "bold");
+        loginMessage.getStyle().set("color", "dark-grey");
+        loginMessage.getStyle().set("margin-bottom", "20px");
 
         loginFormContainer.getStyle().set("max-width", "400px");
         loginFormContainer.getStyle().set("width", "100%");
@@ -61,7 +72,7 @@ public class Home extends VerticalLayout {
         createLoginForm(loginFormContainer);
         createRegistrationForm(registrationFormContainer);
 
-        add(navigationBar, welcomeMessage, loginFormContainer, registrationFormContainer);
+        add(loginFormContainer, registrationFormContainer);
     }
 
     private void createLoginForm(Div container) {
@@ -80,6 +91,7 @@ public class Home extends VerticalLayout {
                 Boolean isAuthenticated = userController.login(user);
                 if (Boolean.TRUE.equals(isAuthenticated)) {
                     Notification.show("Login successful");
+                    getUI().ifPresent(ui -> ui.navigate("index"));
                 } else {
                     Notification.show("Invalid credentials", 3000, Notification.Position.MIDDLE);
                 }
@@ -100,7 +112,7 @@ public class Home extends VerticalLayout {
             registrationFormContainer.setVisible(true);
         });
 
-        loginForm.add(usernameField, passwordField, loginButton);
+        loginForm.add(welcomeMessage, loginMessage, usernameField, passwordField, loginButton);
 
         Div registerLinkDiv = new Div(registerHereLink);
         registerLinkDiv.getStyle().set("text-align", "center");

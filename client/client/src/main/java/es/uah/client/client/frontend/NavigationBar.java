@@ -1,42 +1,53 @@
 package es.uah.client.client.frontend;
 
 
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.spring.annotation.UIScope;
+import org.springframework.stereotype.Component;
 
+@Component
+@UIScope
 public class NavigationBar extends HorizontalLayout {
 
     public NavigationBar() {
-        setWidthFull();
-        setPadding(true);
-        setSpacing(true);
-        getStyle().set("background-color", "#E8E8E8");
-        getStyle().set("color", "#007bff");
+        getStyle().set("width", "100%");
+        getStyle().set("background-color", "#007bff");
+        getStyle().set("padding", "10px");
         getStyle().set("position", "fixed");
         getStyle().set("top", "0");
-        getStyle().set("left", "0");
         getStyle().set("z-index", "1000");
+        getStyle().set("box-shadow", "0 2px 4px rgba(0, 0, 0, 0.1)");
 
+        Span logo = new Span("BlueRoyals");
+        logo.getStyle().set("color", "white");
+        logo.getStyle().set("font-weight", "bold");
 
-        Image logo = new Image("images/blue_royals_logo.png", "BlueRoyals Logo");
-        logo.setHeight("30px");
-        logo.setAlt("BlueRoyals Logo");
+        Anchor profileLink = new Anchor("profile", "Profile");
+        profileLink.getStyle().set("color", "white");
+        profileLink.getStyle().set("margin-left", "auto");
 
+        Anchor subscriptionsLink = new Anchor("subscriptions", "My Subscriptions");
+        subscriptionsLink.getStyle().set("color", "white");
+        subscriptionsLink.getStyle().set("margin-left", "20px");
 
-        H1 title = new H1("BlueRoyals");
-        title.getStyle().set("margin", "0");
-        title.getStyle().set("font-size", "18px");
-        title.getStyle().set("color", "#007bff");
+        Anchor createdEventsLink = new Anchor("events", "My Events");
+        createdEventsLink.getStyle().set("color", "white");
+        createdEventsLink.getStyle().set("margin-left", "20px");
 
-        Div spacer = new Div();
-        spacer.setWidthFull();
+        Anchor createEventLink = new Anchor("create-event", "Create Event");
+        createEventLink.getStyle().set("color", "white");
+        createEventLink.getStyle().set("margin-left", "20px");
 
-        HorizontalLayout logoAndTitle = new HorizontalLayout(logo, title);
-        logoAndTitle.setAlignItems(Alignment.CENTER);
+        Anchor logoutLink = new Anchor("logout", "Logout");
+        logoutLink.getStyle().set("color", "white");
+        logoutLink.getStyle().set("margin-left", "20px");
 
-        add(logoAndTitle, spacer);
+        Div links = new Div(profileLink, subscriptionsLink, createdEventsLink, createEventLink, logoutLink);
+        links.getStyle().set("margin-left", "auto");
+
+        add(logo, links);
     }
 }
+
 
