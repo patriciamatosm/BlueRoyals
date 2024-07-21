@@ -95,4 +95,19 @@ public class Event {
     public void setCreateUser(Integer createUser) {
         this.createUser = createUser;
     }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", maxUser=" + maxUser +
+                ", eventName='" + eventName + '\'' +
+                ", createUser=" + createUser +
+                ", createDate=" + createDate +
+                ", isDelete=" + isDelete +
+                ", eventDate=" + eventDate +
+                ", description='" + description + '\'' +
+                ", location='" + location + '\'' +
+                '}';
+    }
 }

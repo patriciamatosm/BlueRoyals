@@ -4,6 +4,7 @@ package es.uah.client.client.views;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
@@ -72,8 +73,16 @@ public class CreateEvent extends VerticalLayout {
 
         Button saveButton = new Button("Save");
         saveButton.addClickListener(e -> saveEvent(nameField, descriptionField, eventDateField, locationField, maxUsersField));
+        saveButton.getStyle().set("background-color", "green");
+        saveButton.getStyle().set("color", "white");
+        saveButton.getStyle().set("margin-left", "auto");
 
-        Button backButton = new Button("Back to Dashboard", e -> getUI().ifPresent(ui -> ui.navigate("index")));
+
+        Button closeButton = new Button("Close", e -> ((Dialog) this.getParent().get()).close());
+        closeButton.getStyle().set("background-color", "red");
+        closeButton.getStyle().set("color", "white");
+        closeButton.getStyle().set("margin-right", "auto");
+
 
         FormLayout formLayout = new FormLayout();
 
@@ -83,7 +92,7 @@ public class CreateEvent extends VerticalLayout {
         nameAndDateLayout.setSpacing(true);
 
         HorizontalLayout buttonsLayout = new HorizontalLayout();
-        buttonsLayout.add(saveButton, backButton);
+        buttonsLayout.add(closeButton, saveButton);
         buttonsLayout.setWidthFull();
         buttonsLayout.setSpacing(true);
         buttonsLayout.getStyle().set("justify-content", "center");

@@ -1,18 +1,15 @@
 package es.uah.client.client.controller;
 
 import es.uah.client.client.model.Event;
-import es.uah.client.client.paginator.PageRender;
+import es.uah.client.client.model.Subscription;
+import es.uah.client.client.model.User;
 import es.uah.client.client.service.IEventsService;
+import es.uah.client.client.service.ISubscriptionsService;
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,10 +19,24 @@ public class EventsController {
     @Autowired
     IEventsService eventsService;
 
+    @Autowired
+    ISubscriptionsService subscriptionsService;
 
     @GetMapping("/listAll")
     public List<Event> findAll() {
         return eventsService.findAll();
+    }
+
+    @GetMapping("/list/")
+    @ResponseBody
+    public List<Event> findEventsByUser(@RequestBody User u) {
+        List<Subscription> s = subscriptionsService.findUserSubscriptions(u.getId());
+        List<Event> events = new ArrayList<>();
+        for(Subscription sub : s){
+            Event e = eventsService.findEventsById(sub.getIdEvent());
+            if(e != null) events.add(e);
+        }
+        return events;
     }
 
     @PostMapping("/save/")

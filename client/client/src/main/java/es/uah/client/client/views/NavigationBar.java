@@ -35,15 +35,15 @@ public class NavigationBar extends HorizontalLayout {
         createdEventsLink.getStyle().set("color", "white");
         createdEventsLink.getStyle().set("margin-left", "20px");
 
-        Anchor createEventLink = new Anchor("create-event", "Create Event");
-        createEventLink.getStyle().set("color", "white");
-        createEventLink.getStyle().set("margin-left", "20px");
+//        Anchor createEventLink = new Anchor("create-event", "Create Event");
+//        createEventLink.getStyle().set("color", "white");
+//        createEventLink.getStyle().set("margin-left", "20px");
 
         Anchor logoutLink = new Anchor("logout", "Logout");
         logoutLink.getStyle().set("color", "white");
         logoutLink.getStyle().set("margin-left", "20px");
 
-        Div links = new Div(profileLink, subscriptionsLink, createdEventsLink, createEventLink, logoutLink);
+        Div links = new Div(profileLink, subscriptionsLink, createdEventsLink, logoutLink);
         links.getStyle().set("margin-left", "auto");
 
         add(logo, links);

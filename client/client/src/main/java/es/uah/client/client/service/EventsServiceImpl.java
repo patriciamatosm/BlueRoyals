@@ -56,7 +56,7 @@ public class EventsServiceImpl implements IEventsService{
 
     @Override
     public Event findEventsById(Integer id) {
-        return template.getForObject(url + id, Event.class);
+        return template.getForObject(url + '/' + id, Event.class);
     }
 
     @Override
