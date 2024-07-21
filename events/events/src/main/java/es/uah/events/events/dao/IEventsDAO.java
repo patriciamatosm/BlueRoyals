@@ -15,4 +15,6 @@ public interface IEventsDAO {
     void saveEvents(Events event);
 
     void deleteEvents(Integer id);
+
+    List<Events> findEventsByCreateUser(Integer createUser);
 }

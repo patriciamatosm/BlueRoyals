@@ -22,6 +22,12 @@ public class SubscriptionsController {
         return subscriptionsService.findSubscriptionsByEvent(id);
     }
 
+    @GetMapping("/subs/{idEvent}/{idUser}")
+    public Subscriptions findSubsByIdEventIdUser(@PathVariable("idEvent") Integer idEvent,
+                                                       @PathVariable("idUser") Integer idUser) {
+        return subscriptionsService.findByIdUserAndIdEvent(idEvent, idUser);
+    }
+
     @GetMapping("/subs/user/{idUser}")
     public List<Subscriptions> findSubsByIdUser(@PathVariable("idUser") Integer id) {
         return subscriptionsService.findUserSubscriptions(id);
@@ -34,6 +40,7 @@ public class SubscriptionsController {
 
     @PostMapping("/subs")
     public void saveUser(@RequestBody Subscriptions sub) {
+        sub.setDelete(false);
         subscriptionsService.saveSubscription(sub);
     }
 

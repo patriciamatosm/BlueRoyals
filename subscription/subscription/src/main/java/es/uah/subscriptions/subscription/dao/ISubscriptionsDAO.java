@@ -18,4 +18,7 @@ public interface ISubscriptionsDAO {
     void deleteSubscription(Integer id);
 
     void updateSubscription(Subscriptions sub);
+
+    Subscriptions findByIdUserAndIdEvent(int idEvent, int idUser);
+
 }

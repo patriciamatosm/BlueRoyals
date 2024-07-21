@@ -48,4 +48,9 @@ public class SubscriptionsDAOImpl implements ISubscriptionsDAO{
     public void updateSubscription(Subscriptions sub) {
         subscriptionsJPA.save(sub);
     }
+
+    @Override
+    public Subscriptions findByIdUserAndIdEvent(int idEvent, int idUser) {
+        return subscriptionsJPA.findByIdUserAndIdEvent(idEvent, idUser);
+    }
 }

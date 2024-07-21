@@ -47,4 +47,9 @@ public class SubscriptionsServiceImpl implements ISubscriptionsService{
     public void updateSubscription(Subscriptions sub) {
         subscriptionsDAO.updateSubscription(sub);
     }
+
+    @Override
+    public Subscriptions findByIdUserAndIdEvent(int idEvent, int idUser) {
+        return subscriptionsDAO.findByIdUserAndIdEvent(idEvent, idUser);
+    }
 }

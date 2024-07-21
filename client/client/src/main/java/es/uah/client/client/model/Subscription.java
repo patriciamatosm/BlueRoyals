@@ -50,4 +50,14 @@ public class Subscription {
     public void setIsDelete(Boolean isDelete) {
         this.isDelete = isDelete;
     }
+
+    @Override
+    public String toString() {
+        return "Subscription{" +
+                "id=" + id +
+                ", idEvent=" + idEvent +
+                ", idUser=" + idUser +
+                ", isDelete=" + isDelete +
+                '}';
+    }
 }

@@ -14,4 +14,6 @@ public interface IEventsService {
     void saveEvents(Events event);
 
     void deleteEvents(Integer id);
+
+    List<Events> findEventsByIdUser(Integer id);
 }

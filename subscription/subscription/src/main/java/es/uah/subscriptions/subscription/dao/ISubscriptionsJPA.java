@@ -9,4 +9,5 @@ public interface ISubscriptionsJPA extends JpaRepository<Subscriptions, Integer>
 
     List<Subscriptions> findByIdEvent(int idEvent);
     List<Subscriptions> findByIdUser(int idUser);
+    Subscriptions findByIdUserAndIdEvent(int idEvent, int idUser);
 }

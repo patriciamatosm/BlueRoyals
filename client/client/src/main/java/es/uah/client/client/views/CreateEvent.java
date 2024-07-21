@@ -33,8 +33,8 @@ public class CreateEvent extends VerticalLayout {
     private final EventsController eventsController;
     private H1  welcomeMessage;
 
-    public CreateEvent(EventsController eventsControlle) {
-        this.eventsController = eventsControlle;
+    public CreateEvent(EventsController eventsController) {
+        this.eventsController = eventsController;
         setSizeFull();
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);

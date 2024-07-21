@@ -21,4 +21,6 @@ public interface ISubscriptionsService {
 
     void deleteSubscription(Integer id);
 
+     Subscription findSubscriptionsByEventAndUser(Integer idEvent, Integer idUser);
+
 }

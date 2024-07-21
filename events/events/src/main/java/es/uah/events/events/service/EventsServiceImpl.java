@@ -29,6 +29,11 @@ public class EventsServiceImpl implements IEventsService{
     }
 
     @Override
+    public List<Events> findEventsByIdUser(Integer id) {
+       return eventsDAO.findEventsByCreateUser(id);
+   }
+
+    @Override
     public void saveEvents(Events event) {
         eventsDAO.saveEvents(event);
     }

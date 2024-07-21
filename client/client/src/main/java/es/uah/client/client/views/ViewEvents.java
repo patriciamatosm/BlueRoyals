@@ -5,6 +5,7 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -43,41 +44,7 @@ public class ViewEvents extends VerticalLayout {
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.START);
 
-        welcomeMessage = new H1("My Events.");
-
-        welcomeMessage.getStyle().set("font-size", "24px");
-        welcomeMessage.getStyle().set("font-weight", "bold");
-        welcomeMessage.getStyle().set("color", "dark-grey");
-        welcomeMessage.getStyle().set("text-align", "left");
-        welcomeMessage.getStyle().set("margin-bottom", "20px");
-
-        NavigationBar navigationBar = new NavigationBar();
-        add(navigationBar);
-
-        Div contentLayout = new Div();
-        contentLayout.getStyle().set("margin-top", "60px");
-        contentLayout.setWidthFull();
-        contentLayout.getStyle().set("padding", "20px");
-
-        contentLayout.add(welcomeMessage);
-
-        Button createEventButton = new Button("Create Event");
-        createEventButton.addClickListener(e -> openCreateEventModal());
-
-        contentLayout.add(createEventButton);
-
-        User user = (User) VaadinSession.getCurrent().getAttribute(User.class);
-
-        List<Event> events = eventsController.findEventsByUser(user);
-        System.out.println("Eventos: " + events);
-
-
-        events.forEach(event -> {
-            Div eventCard = createEventCard(event);
-            contentLayout.add(eventCard);
-        });
-
-        add(contentLayout);
+        refreshEvents();
     }
 
     private void openCreateEventModal() {
@@ -123,6 +90,13 @@ public class ViewEvents extends VerticalLayout {
 
         User user = (User) VaadinSession.getCurrent().getAttribute(User.class);
 
+        Button cancelEventButton = new Button("Cancel Event", e -> {
+            cancelEvent(event.getId());
+        });
+        cancelEventButton.getStyle().set("margin-left", "auto");
+        cancelEventButton.getStyle().set("background-color", "red");
+        cancelEventButton.getStyle().set("color", "white");
+
         FlexLayout eventInfoLayout = new FlexLayout();
         eventInfoLayout.setFlexDirection(FlexLayout.FlexDirection.COLUMN);
         eventInfoLayout.setWidthFull();
@@ -133,4 +107,59 @@ public class ViewEvents extends VerticalLayout {
 
         return eventCard;
     }
+
+    private void refreshEvents() {
+        removeAll();
+
+        welcomeMessage = new H1("My Events.");
+
+        welcomeMessage.getStyle().set("font-size", "24px");
+        welcomeMessage.getStyle().set("font-weight", "bold");
+        welcomeMessage.getStyle().set("color", "dark-grey");
+        welcomeMessage.getStyle().set("text-align", "left");
+        welcomeMessage.getStyle().set("margin-bottom", "20px");
+
+        NavigationBar navigationBar = new NavigationBar();
+        add(navigationBar);
+
+        Div contentLayout = new Div();
+        contentLayout.getStyle().set("margin-top", "60px");
+        contentLayout.setWidthFull();
+        contentLayout.getStyle().set("padding", "20px");
+
+        contentLayout.add(welcomeMessage);
+
+        Button createEventButton = new Button("Create Event");
+        createEventButton.addClickListener(e -> openCreateEventModal());
+
+        contentLayout.add(createEventButton);
+
+        User user = (User) VaadinSession.getCurrent().getAttribute(User.class);
+        System.out.println("User session: " + user);
+
+        List<Event> events = eventsController.findEventsByUserCreated(user);
+        System.out.println("Eventos: " + events);
+
+
+        events.forEach(event -> {
+            Div eventCard = createEventCard(event);
+            contentLayout.add(eventCard);
+        });
+
+        add(contentLayout);
+    }
+
+    private void cancelEvent(Integer eventId) {
+        try {
+            System.out.println("Canceling: " + eventId);
+            eventsController.delete(eventId);
+
+            refreshEvents();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            Notification.show("Failed to cancel the event.");
+        }
+    }
+
 }

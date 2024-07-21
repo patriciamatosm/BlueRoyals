@@ -20,17 +20,27 @@ public class SubscriptionsController {
     @Autowired
     ISubscriptionsService subsService;
 
-    @GetMapping("/id/")
     @ResponseBody
     public List<Subscription> findByIdEvent(@RequestBody Integer id) {
         return subsService.findSubscriptionsByEvent(id);
     }
 
-    @GetMapping("/subscribe/")
+    @ResponseBody
+    public Subscription findByIdEventIdUser(@RequestBody Integer idEvent, @RequestBody Integer idUser) {
+        return subsService.findSubscriptionsByEventAndUser(idEvent, idUser);
+    }
+
     @ResponseBody
     public Boolean subscribe(@RequestBody Subscription s) {
         s.setIsDelete(false);
         subsService.saveSubscription(s);
+        return true;
+    }
+
+    @ResponseBody
+    public Boolean unsubscribe(@RequestBody Subscription s) throws Exception{
+        System.out.println("Unsubscribing: " + s);
+        subsService.deleteSubscription(s.getId());
         return true;
     }
 }

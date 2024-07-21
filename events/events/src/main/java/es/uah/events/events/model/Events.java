@@ -8,9 +8,12 @@ import java.util.Date;
 @Entity
 @Table(name = "event")
 @NamedQueries({
-        @NamedQuery(name = "Events.findAll", query = "SELECT r FROM Events r"),
-        @NamedQuery(name = "Events.findById", query = "SELECT r FROM Events r WHERE r.id = :id"),
-        @NamedQuery(name = "Events.findByEventName", query = "SELECT r FROM Events r WHERE r.eventName = :eventName")})
+        @NamedQuery(name = "Events.findAll", query = "SELECT r FROM Events r WHERE isDelete = false"),
+        @NamedQuery(name = "Events.findById", query = "SELECT r FROM Events r WHERE r.id = :id AND isDelete = false"),
+        @NamedQuery(name = "Events.findByCreateUser", query = "SELECT r FROM Events r WHERE r.createUser = :createUser " +
+                "AND isDelete = false"),
+        @NamedQuery(name = "Events.findByEventName", query = "SELECT r FROM Events r WHERE r.eventName = :eventName " +
+                "AND isDelete = false")})
 public class Events implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

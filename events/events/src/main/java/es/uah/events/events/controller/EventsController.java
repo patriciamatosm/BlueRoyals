@@ -23,6 +23,12 @@ public class EventsController {
         return eventsService.findEventsById(id);
     }
 
+    @GetMapping("/events/idUser/{idUser}")
+    public List<Events> findEventsByIdUser(@PathVariable("idUser") Integer id) {
+       return eventsService.findEventsByIdUser(id);
+    }
+
+
 
     @GetMapping("/events/find/{username}")
     public List<Events> findEventsByEventName(@PathVariable("username") String username) {
@@ -31,6 +37,7 @@ public class EventsController {
 
     @PostMapping("/events")
     public void saveEvents(@RequestBody Events user) {
+        user.setDelete(false);
         eventsService.saveEvents(user);
     }
 

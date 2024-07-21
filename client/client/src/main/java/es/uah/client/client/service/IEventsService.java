@@ -18,4 +18,6 @@ public interface IEventsService {
     void saveEvents(Event event);
 
     void deleteEvents(Integer id);
+
+    List<Event> findEventsByCreateUser(Integer id);
 }

@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface IEventsJPA extends JpaRepository<Events, Integer> {
     List<Events> findByEventName(String eventName);
+
+    List<Events> findByCreateUser(Integer createUser);
 }

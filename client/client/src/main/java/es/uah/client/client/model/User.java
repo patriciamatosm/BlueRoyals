@@ -88,4 +88,17 @@ public class User {
     public void setDelete(Boolean delete) {
         isDelete = delete;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", isDelete=" + isDelete +
+                '}';
+    }
 }

@@ -55,6 +55,12 @@ public class EventsServiceImpl implements IEventsService{
     }
 
     @Override
+    public List<Event> findEventsByCreateUser(Integer id) {
+        Event[] events = template.getForObject(url + "/idUser/" + id, Event[].class);
+        return Arrays.asList(events);
+    }
+
+    @Override
     public Event findEventsById(Integer id) {
         return template.getForObject(url + '/' + id, Event.class);
     }

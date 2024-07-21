@@ -23,6 +23,11 @@ public class EventsDAOImpl implements IEventsDAO{
     }
 
     @Override
+    public List<Events> findEventsByCreateUser(Integer id) {
+        return eventsJPA.findByCreateUser(id);
+    }
+
+    @Override
     public Events findEventsById(Integer id) {
         Optional<Events> optional = eventsJPA.findById(id);
         return optional.orElse(null);

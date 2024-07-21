@@ -6,13 +6,14 @@ import es.uah.client.client.model.User;
 import es.uah.client.client.service.IEventsService;
 import es.uah.client.client.service.ISubscriptionsService;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/events")
 public class EventsController {
 
@@ -22,12 +23,15 @@ public class EventsController {
     @Autowired
     ISubscriptionsService subscriptionsService;
 
-    @GetMapping("/listAll")
     public List<Event> findAll() {
         return eventsService.findAll();
     }
 
-    @GetMapping("/list/")
+    @ResponseBody
+    public List<Event> findEventsByUserCreated(@RequestBody User u) {
+        return eventsService.findEventsByCreateUser(u.getId());
+    }
+
     @ResponseBody
     public List<Event> findEventsByUser(@RequestBody User u) {
         List<Subscription> s = subscriptionsService.findUserSubscriptions(u.getId());
@@ -39,11 +43,16 @@ public class EventsController {
         return events;
     }
 
-    @PostMapping("/save/")
     @ResponseBody
-    public Event save(@RequestBody  Event r) {
+    public Event save(@RequestBody Event r) {
+        r.setDelete(false);
         eventsService.saveEvents(r);
         return (Event) eventsService.findEventsByEventName(r.getEventName());
+    }
+
+    @ResponseBody
+    public void delete(@RequestBody Integer event) {
+        eventsService.deleteEvents(event);
     }
 
 
