@@ -13,8 +13,11 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.spring.annotation.UIScope;
 import es.uah.client.client.controller.EventsController;
+import es.uah.client.client.model.User;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Component;
 import es.uah.client.client.model.Event;
 import com.vaadin.flow.component.textfield.TextArea;
@@ -22,6 +25,8 @@ import com.vaadin.flow.component.textfield.TextField;
 
 import java.time.LocalDate;
 import java.util.Date;
+
+import static java.time.LocalDate.now;
 
 @Component
 @UIScope
@@ -115,16 +120,23 @@ public class CreateEvent extends VerticalLayout {
 
         Date eventDateAsDate = DateUtils.convertToDateViaInstant(eventDate);
 
+        User user = (User) VaadinSession.getCurrent().getAttribute(User.class);
+
         Event event = new Event();
         event.setEventName(name);
         event.setDescription(description);
         event.setEventDate(eventDateAsDate);
         event.setLocation(location);
         event.setMaxUser(maxUsers);
+        event.setCreateUser(user.getId());
+        Date createDate = DateUtils.convertToDateViaInstant(LocalDate.now());
+        event.setCreateDate(createDate);
+        event.setDelete(false);
 
-        Event savedEvent = eventsController.save(event);
+        System.out.println(event);
+        Boolean result = eventsController.saveEvent(event);
 
-        Notification.show("Event saved with ID: " + savedEvent.getId());
+        if(result) Notification.show("Event saved!");
 
         getUI().ifPresent(ui -> ui.navigate("index"));
     }

@@ -44,10 +44,14 @@ public class EventsController {
     }
 
     @ResponseBody
-    public Event save(@RequestBody Event r) {
-        r.setDelete(false);
-        eventsService.saveEvents(r);
-        return (Event) eventsService.findEventsByEventName(r.getEventName());
+    public Boolean saveEvent(@RequestBody Event r) {
+        try{
+            eventsService.saveEvents(r);
+        } catch (Exception e) {
+            return false;
+        }
+
+        return true;
     }
 
     @ResponseBody

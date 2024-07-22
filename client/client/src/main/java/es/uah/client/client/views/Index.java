@@ -39,12 +39,12 @@ public class Index extends VerticalLayout{
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.START);
 
-        welcomeMessage = new H1("Nearby Events.");
+        welcomeMessage = new H1("Nearby Events");
 
         welcomeMessage.getStyle().set("font-size", "24px");
         welcomeMessage.getStyle().set("font-weight", "bold");
         welcomeMessage.getStyle().set("color", "dark-grey");
-        welcomeMessage.getStyle().set("text-align", "left");
+        welcomeMessage.getStyle().set("text-align", "center");
         welcomeMessage.getStyle().set("margin-bottom", "20px");
 
         NavigationBar navigationBar = new NavigationBar();
@@ -59,21 +59,24 @@ public class Index extends VerticalLayout{
 
         // TODO: Nearby Events
         List<Event> events = eventsController.findAll();
+
+        Div gridLayout = new Div();
+        gridLayout.getStyle().set("display", "grid");
+        gridLayout.getStyle().set("grid-template-columns", "repeat(auto-fit, minmax(300px, 1fr))");
+        gridLayout.getStyle().set("gap", "16px");
+
         events.forEach(event -> {
             Div eventCard = createEventCard(event);
-            contentLayout.add(eventCard);
+            gridLayout.add(eventCard);
         });
 
+        contentLayout.add(gridLayout);
         add(contentLayout);
     }
 
     private Div createEventCard(Event event) {
         Div eventCard = new Div();
-        eventCard.getStyle().set("border", "1px solid #ccc");
-        eventCard.getStyle().set("border-radius", "8px");
-        eventCard.getStyle().set("padding", "16px");
-        eventCard.getStyle().set("margin", "8px");
-        eventCard.getStyle().set("box-shadow", "0 2px 4px rgba(0, 0, 0, 0.1)");
+        eventCard.addClassName("event-card");
 
         Div eventName = new Div();
         eventName.setText(event.getEventName());
@@ -103,14 +106,11 @@ public class Index extends VerticalLayout{
             subscribeToEvent(event.getId(), user.getId());
         });
         subscribeButton.getStyle().set("margin-left", "auto");
+        subscribeButton.getStyle().set("background-color", "green");
+        subscribeButton.getStyle().set("color", "white");
 
-        FlexLayout eventInfoLayout = new FlexLayout();
-        eventInfoLayout.setFlexDirection(FlexLayout.FlexDirection.COLUMN);
-        eventInfoLayout.setWidthFull();
 
-        eventInfoLayout.add(eventName, eventDesc, eventCreateUser, eventDate, eventLocation, maxUser, subscribeButton);
-
-        eventCard.add(eventInfoLayout);
+        eventCard.add(eventName, eventDesc, eventCreateUser, eventDate, eventLocation, maxUser, subscribeButton);
 
         return eventCard;
     }
