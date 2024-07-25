@@ -52,7 +52,7 @@ public class CreateEvent extends VerticalLayout {
         contentContainer.addClassName("centered-content");
         contentContainer.setWidthFull();
 
-        welcomeMessage = new H1("Create your own event.");
+        welcomeMessage = new H1("Create your own event");
 
         welcomeMessage.getStyle().set("font-size", "24px");
         welcomeMessage.getStyle().set("font-weight", "bold");

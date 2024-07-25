@@ -1,6 +1,6 @@
 package es.uah.client.client.model;
 
-public class User {
+public class User implements Cloneable{
     private Integer id;
 
     private String username;
@@ -31,6 +31,11 @@ public class User {
         this.name = name;
         this.surname = surname;
         this.isDelete = false;
+    }
+
+    public Object clone() throws CloneNotSupportedException
+    {
+        return super.clone();
     }
 
     public Integer getId() {

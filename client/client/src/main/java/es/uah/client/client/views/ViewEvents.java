@@ -7,7 +7,6 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.AfterNavigationEvent;
 import com.vaadin.flow.router.AfterNavigationObserver;
@@ -116,6 +115,9 @@ public class ViewEvents extends VerticalLayout implements AfterNavigationObserve
     private void refreshEvents() {
         removeAll();
 
+        NavigationBar navigationBar = new NavigationBar();
+        add(navigationBar);
+
         welcomeMessage = new H1("My Events");
 
         welcomeMessage.getStyle().set("font-size", "24px");
@@ -123,9 +125,6 @@ public class ViewEvents extends VerticalLayout implements AfterNavigationObserve
         welcomeMessage.getStyle().set("color", "dark-grey");
         welcomeMessage.getStyle().set("text-align", "center");
         welcomeMessage.getStyle().set("margin-bottom", "20px");
-
-        NavigationBar navigationBar = new NavigationBar();
-        add(navigationBar);
 
         Div contentLayout = new Div();
         contentLayout.getStyle().set("margin-top", "60px");

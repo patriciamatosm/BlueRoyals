@@ -21,6 +21,11 @@ public class UsersController {
         return (User) userService.findUsersByUsername(user.getUsername());
     }
 
+    @PostMapping("/update/")
+    public void update(@RequestBody User user) {
+        userService.saveUser(user);
+    }
+
     @PostMapping("/login/")
     @ResponseBody
     public User login(@RequestBody User user) {

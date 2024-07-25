@@ -39,7 +39,6 @@ public class Home extends VerticalLayout {
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
-        //NavigationBar navigationBar = new NavigationBar();
         welcomeMessage = new H1("Welcome to BlueRoyals!");
         loginMessage = new H2("Log In.");
         loginFormContainer = new Div();
