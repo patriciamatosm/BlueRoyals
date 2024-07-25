@@ -33,6 +33,12 @@ public class Events implements Serializable {
     @Column(name = "location")
     private String location;
 
+    @Column(name = "longitude")
+    private Double longitude;
+
+    @Column(name = "latitude")
+    private Double latitude;
+
     @Column(name = "create_user")
     private Integer createUser;
 
@@ -54,12 +60,16 @@ public class Events implements Serializable {
         this.id = id;
     }
 
-    public Events(Integer id, int maxUser, String eventName, String description, String location, Integer createUser, Date createDate, Date eventDate, Boolean isDelete) {
+    public Events(Integer id, int maxUser, String eventName, String description, String location,
+                  Double longitude, Double latitude, Integer createUser, Date createDate, Date eventDate,
+                  Boolean isDelete) {
         this.id = id;
         this.maxUser = maxUser;
         this.eventName = eventName;
         this.description = description;
         this.location = location;
+        this.longitude = longitude;
+        this.latitude = latitude;
         this.createUser = createUser;
         this.createDate = createDate;
         this.eventDate = eventDate;
@@ -136,5 +146,21 @@ public class Events implements Serializable {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
 }

@@ -17,4 +17,6 @@ public interface IEventsDAO {
     void deleteEvents(Integer id);
 
     List<Events> findEventsByCreateUser(Integer createUser);
+
+    List<Events> findNearbyEvents(Double longitude, Double latitude, Double maxDistance);
 }

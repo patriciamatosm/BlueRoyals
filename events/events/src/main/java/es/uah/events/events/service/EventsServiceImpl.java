@@ -34,6 +34,11 @@ public class EventsServiceImpl implements IEventsService{
    }
 
     @Override
+    public List<Events> findNearbyEvents(Double longitude, Double latitude, Double maxDistance) {
+        return eventsDAO.findNearbyEvents(longitude, latitude, maxDistance);
+    }
+
+    @Override
     public void saveEvents(Events event) {
         eventsDAO.saveEvents(event);
     }

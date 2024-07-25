@@ -1,6 +1,7 @@
 package es.uah.client.client.views;
 
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -24,6 +25,7 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Date;
 
 import static java.time.LocalDate.now;
@@ -44,14 +46,6 @@ public class CreateEvent extends VerticalLayout {
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
-        NavigationBar navigationBar = new NavigationBar();
-        add(navigationBar);
-
-
-        Div contentContainer = new Div();
-        contentContainer.addClassName("centered-content");
-        contentContainer.setWidthFull();
-
         welcomeMessage = new H1("Create your own event");
 
         welcomeMessage.getStyle().set("font-size", "24px");
@@ -60,12 +54,17 @@ public class CreateEvent extends VerticalLayout {
         welcomeMessage.getStyle().set("text-align", "left");
         welcomeMessage.getStyle().set("margin-bottom", "20px");
 
+        add(welcomeMessage);
+
+        Div contentContainer = new Div();
+        contentContainer.addClassName("centered-content");
+        contentContainer.setWidthFull();
+
         FormLayout formLayout = createFormLayout();
 
-        contentContainer.add(welcomeMessage, formLayout);
+        contentContainer.add(formLayout);
 
         add(contentContainer);
-
 
     }
 
@@ -77,17 +76,19 @@ public class CreateEvent extends VerticalLayout {
         TextField maxUsersField = new TextField("Max Users");
 
         Button saveButton = new Button("Save");
-        saveButton.addClickListener(e -> saveEvent(nameField, descriptionField, eventDateField, locationField, maxUsersField));
+        saveButton.addClickListener(e -> {
+            saveEvent(nameField, descriptionField, eventDateField, locationField, maxUsersField);
+            ((Dialog) this.getParent().get()).close();
+            getUI().ifPresent(ui -> ui.navigate("index"));
+        });
         saveButton.getStyle().set("background-color", "green");
         saveButton.getStyle().set("color", "white");
         saveButton.getStyle().set("margin-left", "auto");
-
 
         Button closeButton = new Button("Close", e -> ((Dialog) this.getParent().get()).close());
         closeButton.getStyle().set("background-color", "red");
         closeButton.getStyle().set("color", "white");
         closeButton.getStyle().set("margin-right", "auto");
-
 
         FormLayout formLayout = new FormLayout();
 
@@ -118,6 +119,19 @@ public class CreateEvent extends VerticalLayout {
         String location = locationField.getValue();
         int maxUsers = Integer.parseInt(maxUsersField.getValue());
 
+        double[] coordinates = GeocodingService.getCoordinates(location);
+
+        System.out.println("coordinates: " + Arrays.toString(coordinates));
+
+
+        if (coordinates == null) {
+            Notification.show("Unable to geocode location. Please try again.");
+            return;
+        }
+
+        double latitude = coordinates[0];
+        double longitude = coordinates[1];
+
         Date eventDateAsDate = DateUtils.convertToDateViaInstant(eventDate);
 
         User user = (User) VaadinSession.getCurrent().getAttribute(User.class);
@@ -132,12 +146,13 @@ public class CreateEvent extends VerticalLayout {
         Date createDate = DateUtils.convertToDateViaInstant(LocalDate.now());
         event.setCreateDate(createDate);
         event.setDelete(false);
+        event.setLatitude(latitude);
+        event.setLongitude(longitude);
 
         System.out.println(event);
         Boolean result = eventsController.saveEvent(event);
 
         if(result) Notification.show("Event saved!");
 
-        getUI().ifPresent(ui -> ui.navigate("index"));
     }
 }

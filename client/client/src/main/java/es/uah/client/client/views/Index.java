@@ -30,7 +30,8 @@ public class Index extends VerticalLayout{
     private H1  welcomeMessage;
 
     @Autowired
-    public Index(EventsController eventsController, UsersController usersController, SubscriptionsController subscriptionsController) {
+    public Index(EventsController eventsController, UsersController usersController,
+                 SubscriptionsController subscriptionsController) {
         this.eventsController = eventsController;
         this.usersController = usersController;
         this.subscriptionsController = subscriptionsController;
@@ -57,14 +58,27 @@ public class Index extends VerticalLayout{
 
         contentLayout.add(welcomeMessage);
 
-        // TODO: Nearby Events
-        List<Event> events = eventsController.findAll();
+        double[] location = UserLocationService.getUserLocation();
+
+        List<Event> events = null;
+
+        if (location != null) {
+            double userLat = location[0];
+            double userLon = location[1];
+
+            System.out.println("long: " + userLon + " lat: " + userLat);
+
+            events = eventsController.findNearbyEvents(userLat, userLon, 10.0);
+        } else {
+            Notification.show("Unable to determine your location.");
+        }
 
         Div gridLayout = new Div();
         gridLayout.getStyle().set("display", "grid");
         gridLayout.getStyle().set("grid-template-columns", "repeat(auto-fit, minmax(300px, 1fr))");
         gridLayout.getStyle().set("gap", "16px");
 
+        assert events != null;
         events.forEach(event -> {
             Div eventCard = createEventCard(event);
             gridLayout.add(eventCard);
@@ -108,7 +122,6 @@ public class Index extends VerticalLayout{
         subscribeButton.getStyle().set("margin-left", "auto");
         subscribeButton.getStyle().set("background-color", "green");
         subscribeButton.getStyle().set("color", "white");
-
 
         eventCard.add(eventName, eventDesc, eventCreateUser, eventDate, eventLocation, maxUser, subscribeButton);
 

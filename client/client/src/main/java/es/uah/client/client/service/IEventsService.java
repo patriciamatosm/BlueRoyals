@@ -20,4 +20,6 @@ public interface IEventsService {
     void deleteEvents(Integer id);
 
     List<Event> findEventsByCreateUser(Integer id);
+
+    List<Event> findNearbyEvents(Double longitude, Double latitude, Double maxDistance);
 }

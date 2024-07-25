@@ -59,5 +59,11 @@ public class EventsController {
         eventsService.deleteEvents(event);
     }
 
+    @ResponseBody
+    public List<Event> findNearbyEvents(@RequestBody Double longitude, @RequestBody Double latitude,
+                                 @RequestBody Double maxDistance) {
+        return eventsService.findNearbyEvents(longitude, latitude, maxDistance);
+    }
+
 
 }

@@ -79,4 +79,11 @@ public class EventsServiceImpl implements IEventsService{
     public void deleteEvents(Integer id) {
         template.delete(url + "/" + id);
     }
+
+    @Override
+    public List<Event> findNearbyEvents(Double longitude, Double latitude, Double maxDistance){
+        Event[] events = template.getForObject(url + "/nearby/" + longitude + "/" + latitude + "/" + maxDistance,
+                Event[].class);
+        return Arrays.asList(events);
+    }
 }

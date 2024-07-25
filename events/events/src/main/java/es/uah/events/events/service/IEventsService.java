@@ -16,4 +16,6 @@ public interface IEventsService {
     void deleteEvents(Integer id);
 
     List<Events> findEventsByIdUser(Integer id);
+
+    List<Events> findNearbyEvents(Double longitude, Double latitude, Double maxDistance);
 }

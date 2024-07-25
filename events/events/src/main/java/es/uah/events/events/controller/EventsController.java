@@ -28,7 +28,12 @@ public class EventsController {
        return eventsService.findEventsByIdUser(id);
     }
 
-
+    @GetMapping("/events/nearby/{longitude}/{latitude}/{maxD}")
+    public List<Events> findNearbyEvents(@PathVariable("longitude") Double longitude,
+                                         @PathVariable("latitude") Double latitude,
+                                         @PathVariable("maxD") Double maxDistance){
+        return eventsService.findNearbyEvents(longitude, latitude, maxDistance);
+    }
 
     @GetMapping("/events/find/{username}")
     public List<Events> findEventsByEventName(@PathVariable("username") String username) {
