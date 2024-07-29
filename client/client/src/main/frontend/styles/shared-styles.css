@@ -68,3 +68,59 @@ form-layout {
     background-color: #e60000;
 }
 
+/* styles/shared-styles.css */
+/* styles/shared-styles.css */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+    background: linear-gradient(135deg, #f9f9f9 30%, #e3e4e8 100%);
+
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #333;
+    margin-top: 0;
+}
+
+
+.card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px 10px;
+    width: calc(50% - 40px); /* Adjusted for two cards per row */
+    display: inline-block;
+    vertical-align: top;
+}
+
+/* Navigation bar styles */
+.nav-bar {
+    background-color: #0056b3; /* Softer blue */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+}
+
+.nav-bar h1 {
+    color: #ffffff;
+    font-size: 24px;
+    margin: 0;
+}
+
+.nav-bar .nav-buttons button {
+    color: #ffffff;
+    background: none;
+    border: none;
+    font-size: 16px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.nav-bar .nav-buttons button:hover menu-bar-item:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Lighter hover effect */
+}
+
+
+

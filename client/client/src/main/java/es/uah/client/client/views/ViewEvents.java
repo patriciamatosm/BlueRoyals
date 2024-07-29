@@ -6,6 +6,7 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.AfterNavigationEvent;
@@ -68,6 +69,7 @@ public class ViewEvents extends VerticalLayout implements AfterNavigationObserve
         createEventDialog.add(createEventView);
 
         createEventDialog.open();
+
     }
 
     private Div createEventCard(Event event) {
@@ -136,7 +138,12 @@ public class ViewEvents extends VerticalLayout implements AfterNavigationObserve
         Button createEventButton = new Button("Create Event");
         createEventButton.addClickListener(e -> openCreateEventModal());
 
+        Div spacer = new Div();
+        spacer.setHeight("20px");
+
         contentLayout.add(createEventButton);
+
+        contentLayout.add(spacer);
 
         User user = (User) VaadinSession.getCurrent().getAttribute(User.class);
         System.out.println("User session: " + user);
@@ -150,10 +157,25 @@ public class ViewEvents extends VerticalLayout implements AfterNavigationObserve
         gridLayout.getStyle().set("gap", "16px");
 
 
-        events.forEach(event -> {
-            Div eventCard = createEventCard(event);
-            gridLayout.add(eventCard);
-        });
+        if (events.isEmpty()) {
+
+            Div noEventsMessageContainer = new Div();
+            noEventsMessageContainer.getStyle().set("text-align", "center");
+            noEventsMessageContainer.getStyle().set("margin", "20px 0");
+
+            Span noEventsMessage = new Span("No events found.");
+            noEventsMessage.getStyle().set("font-size", "18px");
+            noEventsMessage.getStyle().set("color", "#ff0000");
+            noEventsMessage.getStyle().set("font-weight", "bold");
+
+            noEventsMessageContainer.add(noEventsMessage);
+            contentLayout.add(noEventsMessageContainer);
+        } else {
+            events.forEach(event -> {
+                Div eventCard = createEventCard(event);
+                gridLayout.add(eventCard);
+            });
+        }
 
         contentLayout.add(gridLayout);
         add(contentLayout);

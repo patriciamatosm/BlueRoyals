@@ -47,7 +47,7 @@ public class Home extends VerticalLayout {
 
         welcomeMessage.getStyle().set("font-size", "24px");
         welcomeMessage.getStyle().set("font-weight", "bold");
-        welcomeMessage.getStyle().set("color", "#007bff");
+        welcomeMessage.getStyle().set("color", "#0044cc");
         welcomeMessage.getStyle().set("text-align", "center");
         welcomeMessage.getStyle().set("margin-bottom", "20px");
 
@@ -102,7 +102,7 @@ public class Home extends VerticalLayout {
                 Notification.show("Login failed: " + e.getMessage(), 3000, Notification.Position.MIDDLE);
             }
         });
-        loginButton.getStyle().set("background-color", "#3975F0");
+        loginButton.getStyle().set("background-color", "#0044cc");
         loginButton.getStyle().set("color", "white");
         loginButton.getStyle().set("margin-bottom", "10px");
 

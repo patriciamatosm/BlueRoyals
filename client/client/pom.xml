@@ -39,6 +39,11 @@
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-spring-boot-starter</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-core</artifactId>
+			<version>24.4.5</version> <!-- Replace with the specific version you're using -->
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

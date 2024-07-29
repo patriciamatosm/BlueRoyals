@@ -6,6 +6,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -125,10 +126,27 @@ public class Subscriptions extends VerticalLayout  implements  AfterNavigationOb
         gridLayout.getStyle().set("grid-template-columns", "repeat(auto-fit, minmax(300px, 1fr))");
         gridLayout.getStyle().set("gap", "16px");
 
-        events.forEach(event -> {
-            Div eventCard = createEventCard(event);
-            gridLayout.add(eventCard);
-        });
+
+        if (events.isEmpty()) {
+
+            Div noEventsMessageContainer = new Div();
+            noEventsMessageContainer.getStyle().set("text-align", "center");
+            noEventsMessageContainer.getStyle().set("margin", "20px 0");
+
+            Span noEventsMessage = new Span("No events found.");
+            noEventsMessage.getStyle().set("font-size", "18px");
+            noEventsMessage.getStyle().set("color", "#ff0000");
+            noEventsMessage.getStyle().set("font-weight", "bold");
+
+            noEventsMessageContainer.add(noEventsMessage);
+            contentLayout.add(noEventsMessageContainer);
+        } else {
+            events.forEach(event -> {
+                Div eventCard = createEventCard(event);
+                gridLayout.add(eventCard);
+            });
+        }
+
         contentLayout.add(gridLayout);
         add(contentLayout);
     }

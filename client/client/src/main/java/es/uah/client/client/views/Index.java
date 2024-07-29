@@ -1,10 +1,14 @@
 package es.uah.client.client.views;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.spring.annotation.UIScope;
@@ -17,6 +21,8 @@ import es.uah.client.client.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+
+
 import java.util.List;
 
 @Component
@@ -28,6 +34,9 @@ public class Index extends VerticalLayout{
     private final UsersController usersController;
     private final SubscriptionsController subscriptionsController;
     private H1  welcomeMessage;
+    private TextField distanceField;
+    private Div eventsContainer;
+    Double maxDistance = 10.0;
 
     @Autowired
     public Index(EventsController eventsController, UsersController usersController,
@@ -40,6 +49,14 @@ public class Index extends VerticalLayout{
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.START);
 
+        refreshEvents();
+
+    }
+
+    private void refreshEvents(){
+        removeAll();
+
+
         welcomeMessage = new H1("Nearby Events");
 
         welcomeMessage.getStyle().set("font-size", "24px");
@@ -47,6 +64,19 @@ public class Index extends VerticalLayout{
         welcomeMessage.getStyle().set("color", "dark-grey");
         welcomeMessage.getStyle().set("text-align", "center");
         welcomeMessage.getStyle().set("margin-bottom", "20px");
+
+        distanceField = new TextField("Max Distance (km)");
+        distanceField.setWidth("200px");
+        distanceField.setPlaceholder("Enter distance in km");
+        distanceField.getStyle().set("margin-right", "10px");
+
+        Button filterButton = new Button("Filter", e -> updateEvents());
+        filterButton.setWidth("100px");
+        filterButton.getStyle().set("margin-top", "10px");
+
+        HorizontalLayout filterLayout = new HorizontalLayout(distanceField, filterButton);
+        filterLayout.setAlignItems(Alignment.CENTER);
+        filterLayout.setSpacing(true);
 
         NavigationBar navigationBar = new NavigationBar();
         add(navigationBar);
@@ -62,30 +92,58 @@ public class Index extends VerticalLayout{
 
         List<Event> events = null;
 
+        Div gridLayout = new Div();
+        gridLayout.getStyle().set("display", "grid");
+        gridLayout.getStyle().set("grid-template-columns", "repeat(auto-fit, minmax(300px, 1fr))");
+        gridLayout.getStyle().set("gap", "16px");
+
         if (location != null) {
             double userLat = location[0];
             double userLon = location[1];
 
             System.out.println("long: " + userLon + " lat: " + userLat);
 
-            events = eventsController.findNearbyEvents(userLat, userLon, 10.0);
+            //Max distance
+//            double maxDistance = 10.0;
+            events = eventsController.findNearbyEvents(userLat, userLon, maxDistance);
+            System.out.println("MaxD: " + maxDistance);
+
+            if (events.isEmpty()) {
+                Div noEventsMessageContainer = new Div();
+                noEventsMessageContainer.getStyle().set("text-align", "center");
+                noEventsMessageContainer.getStyle().set("margin", "20px 0");
+
+                Span noEventsMessage = new Span("No events found within " + maxDistance + " km.");
+                noEventsMessage.getStyle().set("font-size", "18px");
+                noEventsMessage.getStyle().set("color", "#ff0000");
+                noEventsMessage.getStyle().set("font-weight", "bold");
+
+                noEventsMessageContainer.add(noEventsMessage);
+                contentLayout.add(noEventsMessageContainer);
+            } else {
+                events.forEach(event -> {
+                    Div eventCard = createEventCard(event);
+                    gridLayout.add(eventCard);
+                });
+            }
         } else {
             Notification.show("Unable to determine your location.");
         }
 
-        Div gridLayout = new Div();
-        gridLayout.getStyle().set("display", "grid");
-        gridLayout.getStyle().set("grid-template-columns", "repeat(auto-fit, minmax(300px, 1fr))");
-        gridLayout.getStyle().set("gap", "16px");
-
-        assert events != null;
-        events.forEach(event -> {
-            Div eventCard = createEventCard(event);
-            gridLayout.add(eventCard);
-        });
-
-        contentLayout.add(gridLayout);
+        contentLayout.add(filterLayout, gridLayout);
         add(contentLayout);
+    }
+
+    private void updateEvents() {
+        String distanceStr = distanceField.getValue();
+
+        try {
+            maxDistance = Double.parseDouble(distanceStr);
+        } catch (NumberFormatException e) {
+            Notification.show("Invalid distance. Please enter a number.");
+            return;
+        }
+        refreshEvents();
     }
 
     private Div createEventCard(Event event) {
