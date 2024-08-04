@@ -75,7 +75,7 @@ public class Index extends VerticalLayout{
         filterButton.getStyle().set("margin-top", "10px");
 
         HorizontalLayout filterLayout = new HorizontalLayout(distanceField, filterButton);
-        filterLayout.setAlignItems(Alignment.CENTER);
+        filterLayout.setAlignItems(Alignment.BASELINE);
         filterLayout.setSpacing(true);
 
         NavigationBar navigationBar = new NavigationBar();
@@ -97,6 +97,8 @@ public class Index extends VerticalLayout{
         gridLayout.getStyle().set("grid-template-columns", "repeat(auto-fit, minmax(300px, 1fr))");
         gridLayout.getStyle().set("gap", "16px");
 
+        Div noEventsMessageContainer = null;
+
         if (location != null) {
             double userLat = location[0];
             double userLon = location[1];
@@ -108,8 +110,10 @@ public class Index extends VerticalLayout{
             events = eventsController.findNearbyEvents(userLat, userLon, maxDistance);
             System.out.println("MaxD: " + maxDistance);
 
+
+
             if (events.isEmpty()) {
-                Div noEventsMessageContainer = new Div();
+                noEventsMessageContainer = new Div();
                 noEventsMessageContainer.getStyle().set("text-align", "center");
                 noEventsMessageContainer.getStyle().set("margin", "20px 0");
 
@@ -119,7 +123,7 @@ public class Index extends VerticalLayout{
                 noEventsMessage.getStyle().set("font-weight", "bold");
 
                 noEventsMessageContainer.add(noEventsMessage);
-                contentLayout.add(noEventsMessageContainer);
+
             } else {
                 events.forEach(event -> {
                     Div eventCard = createEventCard(event);
@@ -129,8 +133,12 @@ public class Index extends VerticalLayout{
         } else {
             Notification.show("Unable to determine your location.");
         }
+        if(noEventsMessageContainer == null) {
+            contentLayout.add(filterLayout, gridLayout);
+        } else {
+            contentLayout.add(filterLayout, noEventsMessageContainer, gridLayout);
+        }
 
-        contentLayout.add(filterLayout, gridLayout);
         add(contentLayout);
     }
 
@@ -173,17 +181,41 @@ public class Index extends VerticalLayout{
         maxUser.setText("Attendance: " + subs.size() + "/" + event.getMaxUser());
 
         User user = (User) VaadinSession.getCurrent().getAttribute(User.class);
+        Subscription s = subscriptionsController.findByIdEventIdUser(event.getId(), user.getId());
 
-        Button subscribeButton = new Button("Subscribe", e -> {
-            subscribeToEvent(event.getId(), user.getId());
-        });
-        subscribeButton.getStyle().set("margin-left", "auto");
-        subscribeButton.getStyle().set("background-color", "green");
-        subscribeButton.getStyle().set("color", "white");
+        Button subscribeButton;
+        if(s != null){
+            subscribeButton = new Button("Unsubscribe", e -> {
+                unsubscribeToEvent(s);
+            });
+            subscribeButton.getStyle().set("margin-left", "auto");
+            subscribeButton.getStyle().set("background-color", "red");
+            subscribeButton.getStyle().set("color", "white");
+        } else {
+            subscribeButton = new Button("Subscribe", e -> {
+                subscribeToEvent(event.getId(), user.getId());
+            });
+            subscribeButton.getStyle().set("margin-left", "auto");
+            subscribeButton.getStyle().set("background-color", "green");
+            subscribeButton.getStyle().set("color", "white");
+        }
+
 
         eventCard.add(eventName, eventDesc, eventCreateUser, eventDate, eventLocation, maxUser, subscribeButton);
 
         return eventCard;
+    }
+
+    private void unsubscribeToEvent(Subscription s) {
+        try {
+            System.out.println("Unsubscribing: " + s);
+            subscriptionsController.unsubscribe(s);
+            Notification.show("Unsubscribed from the event.");
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            Notification.show("Failed to unsubscribe from the event.");
+        }
     }
 
     private void subscribeToEvent(Integer eventId, Integer userId) {

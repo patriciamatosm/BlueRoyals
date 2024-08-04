@@ -133,7 +133,7 @@ public class Subscriptions extends VerticalLayout  implements  AfterNavigationOb
             noEventsMessageContainer.getStyle().set("text-align", "center");
             noEventsMessageContainer.getStyle().set("margin", "20px 0");
 
-            Span noEventsMessage = new Span("No events found.");
+            Span noEventsMessage = new Span("No subscriptions found.");
             noEventsMessage.getStyle().set("font-size", "18px");
             noEventsMessage.getStyle().set("color", "#ff0000");
             noEventsMessage.getStyle().set("font-weight", "bold");
