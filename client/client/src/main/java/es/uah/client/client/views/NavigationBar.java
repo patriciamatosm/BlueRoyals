@@ -4,6 +4,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.menubar.MenuBar;
@@ -26,12 +27,16 @@ public class NavigationBar extends HorizontalLayout {
         // Application logo and name
         Div logoLayout = new Div();
         logoLayout.getStyle().set("display", "flex").set("align-items", "center");
+//
+//        Span appName = new Span("BlueRoyals");
+//        appName.getStyle().set("color", "white").set("font-size", "24px").set("font-weight", "bold")
+//                .set("margin-left", "10px");
 
-        Span appName = new Span("BlueRoyals");
-        appName.getStyle().set("color", "white").set("font-size", "24px").set("font-weight", "bold")
-                .set("margin-left", "10px");
+        // Load image from resources
+        Image logo = new Image("/images/logo_4.png", "BlueRoyals Logo");
+        logo.setHeight("50px");  // Adjust the height as needed
 
-        logoLayout.add(appName);
+        logoLayout.add(logo);
 
         // Navigation buttons
         HorizontalLayout navButtons = new HorizontalLayout();

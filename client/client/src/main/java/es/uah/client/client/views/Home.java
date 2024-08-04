@@ -35,6 +35,7 @@ public class Home extends VerticalLayout {
     public Home() {
         setSizeFull();
         getStyle().set("padding-top", "50px");
+        getStyle().set("background-image", "url('/images/blue_royals_banner.png')");
         //getStyle().set("background-color", "#b7d0e1");
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);

@@ -49,6 +49,8 @@ public class Index extends VerticalLayout{
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.START);
 
+
+
         refreshEvents();
 
     }
