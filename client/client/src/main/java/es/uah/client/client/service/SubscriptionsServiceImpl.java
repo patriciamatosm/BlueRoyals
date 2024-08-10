@@ -64,7 +64,7 @@ public class SubscriptionsServiceImpl implements ISubscriptionsService{
 
     @Override
     public Subscription findSubscriptionsByEventAndUser(Integer idEvent, Integer idUser) {
-        return Objects.requireNonNull(template.getForObject(url + "/" + idEvent + "/" + idUser, Subscription.class));
+        return template.getForObject(url + "/" + idEvent + "/" + idUser, Subscription.class);
 
     }
 

@@ -111,6 +111,7 @@ public class Index extends VerticalLayout{
 //            double maxDistance = 10.0;
             events = eventsController.findNearbyEvents(userLat, userLon, maxDistance);
             System.out.println("MaxD: " + maxDistance);
+            System.out.println("events: " + events);
 
 
 
