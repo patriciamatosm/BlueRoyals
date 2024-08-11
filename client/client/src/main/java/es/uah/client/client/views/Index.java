@@ -184,27 +184,45 @@ public class Index extends VerticalLayout{
         maxUser.setText("Attendance: " + subs.size() + "/" + event.getMaxUser());
 
         User user = (User) VaadinSession.getCurrent().getAttribute(User.class);
-        Subscription s = subscriptionsController.findByIdEventIdUser(event.getId(), user.getId());
 
         Button subscribeButton;
-        if(s != null){
-            subscribeButton = new Button("Unsubscribe", e -> {
-                unsubscribeToEvent(s);
-            });
-            subscribeButton.getStyle().set("margin-left", "auto");
-            subscribeButton.getStyle().set("background-color", "red");
-            subscribeButton.getStyle().set("color", "white");
+
+        Subscription s = subscriptionsController.findByIdEventIdUser(event.getId(), user.getId());
+        System.out.println("sub: " + s);
+        if( (subs.size() < event.getMaxUser())) {
+
+            if (s != null) {
+                subscribeButton = new Button("Unsubscribe", e -> {
+                    unsubscribeToEvent(s);
+                });
+                subscribeButton.getStyle().set("margin-left", "auto");
+                subscribeButton.getStyle().set("background-color", "red");
+                subscribeButton.getStyle().set("color", "white");
+            } else {
+                subscribeButton = new Button("Subscribe", e -> {
+                    subscribeToEvent(event.getId(), user.getId());
+                });
+                subscribeButton.getStyle().set("margin-left", "auto");
+                subscribeButton.getStyle().set("background-color", "green");
+                subscribeButton.getStyle().set("color", "white");
+            }
+            eventCard.add(eventName, eventDesc, eventCreateUser, eventDate, eventLocation, maxUser, subscribeButton);
         } else {
-            subscribeButton = new Button("Subscribe", e -> {
-                subscribeToEvent(event.getId(), user.getId());
-            });
-            subscribeButton.getStyle().set("margin-left", "auto");
-            subscribeButton.getStyle().set("background-color", "green");
-            subscribeButton.getStyle().set("color", "white");
+            if (s != null) {
+                subscribeButton = new Button("Unsubscribe", e -> {
+                    unsubscribeToEvent(s);
+                });
+                subscribeButton.getStyle().set("margin-left", "auto");
+                subscribeButton.getStyle().set("background-color", "red");
+                subscribeButton.getStyle().set("color", "white");
+                eventCard.add(eventName, eventDesc, eventCreateUser, eventDate, eventLocation, maxUser, subscribeButton);
+            } else {
+                eventCard.add(eventName, eventDesc, eventCreateUser, eventDate, eventLocation, maxUser);
+            }
+
         }
 
 
-        eventCard.add(eventName, eventDesc, eventCreateUser, eventDate, eventLocation, maxUser, subscribeButton);
 
         return eventCard;
     }

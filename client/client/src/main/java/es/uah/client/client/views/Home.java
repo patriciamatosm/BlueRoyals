@@ -68,7 +68,9 @@ public class Home extends VerticalLayout {
         registrationFormContainer.getStyle().set("padding", "20px");
         registrationFormContainer.getStyle().set("box-shadow", "0 2px 10px rgba(0, 0, 0, 0.1)");
         registrationFormContainer.getStyle().set("border-radius", "8px");
+        User userEmpty = new User();
 
+        VaadinSession.getCurrent().setAttribute(User.class, userEmpty);
 
         createLoginForm(loginFormContainer);
         createRegistrationForm(registrationFormContainer);
@@ -92,6 +94,7 @@ public class Home extends VerticalLayout {
                 User userLogged = userController.login(user);
                 if (userLogged != null) {
                     Notification.show("Login successful");
+
                     VaadinSession.getCurrent().setAttribute(User.class, userLogged);
                     User uSesssion = (User) VaadinSession.getCurrent().getAttribute(User.class);
                     System.out.println("USER: " + uSesssion);

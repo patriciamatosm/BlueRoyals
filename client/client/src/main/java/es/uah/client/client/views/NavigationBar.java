@@ -34,7 +34,7 @@ public class NavigationBar extends HorizontalLayout {
 
         // Load image from resources
         Image logo = new Image("/images/logo_4.png", "BlueRoyals Logo");
-        logo.setHeight("50px");  // Adjust the height as needed
+        logo.setHeight("50px");
 
         logoLayout.add(logo);
 
@@ -69,6 +69,7 @@ public class NavigationBar extends HorizontalLayout {
         userSubMenu.addItem("Profile", e -> UI.getCurrent().navigate("profile"));
         userSubMenu.addItem("Log out", e -> {
             UI.getCurrent().navigate("");
+            UI.getCurrent().close();
         });
 
         navButtons.add(homeButton, eventsMenu, userMenu);
