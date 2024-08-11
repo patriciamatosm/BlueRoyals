@@ -140,9 +140,15 @@ public class Home extends VerticalLayout {
             String name = nameField.getValue();
             String surname = surnameField.getValue();
             try {
-                User user = new User(username, mail, password, name, surname);
-                User registeredUser = userController.save(user);
-                Notification.show("Registration successful for user: " + registeredUser.getUsername());
+
+                if(username.isEmpty() || mail.isEmpty() || password.isEmpty() || name.isEmpty() || surname.isEmpty()){
+                    Notification.show("Please fill all of the required fields.");
+                } else {
+                    User user = new User(username, mail, password, name, surname);
+                    User registeredUser = userController.save(user);
+                    Notification.show("Registration successful for user: " + registeredUser.getUsername());
+                }
+
             } catch (Exception e) {
                 Notification.show("Registration failed: " + e.getMessage(), 3000, Notification.Position.MIDDLE);
             }
