@@ -76,7 +76,7 @@ body, html {
     font-family: Arial, sans-serif;
     color: #333;
     background: linear-gradient(135deg, #f9f9f9 30%, #e3e4e8 100%);
-
+    background-image: url('/images/blue_royals_banner.png');
 }
 
 h1, h2, h3, h4, h5, h6 {
