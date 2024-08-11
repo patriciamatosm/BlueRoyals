@@ -117,7 +117,17 @@ public class CreateEvent extends VerticalLayout {
         String description = descriptionField.getValue();
         LocalDate eventDate = eventDateField.getValue();
         String location = locationField.getValue();
-        int maxUsers = Integer.parseInt(maxUsersField.getValue());
+        int maxUsers;
+        if(maxUsersField.getValue().isEmpty()) {
+            maxUsers = 0;
+        } else {
+            maxUsers = Integer.parseInt(maxUsersField.getValue());
+        }
+
+        if(name.isEmpty() || description.isEmpty() || location.isEmpty() || maxUsers == 0) {
+            Notification.show("Please fill all of the fields.");
+
+        } else {
 
         double[] coordinates = GeocodingService.getCoordinates(location);
 
@@ -150,9 +160,12 @@ public class CreateEvent extends VerticalLayout {
         event.setLongitude(longitude);
 
         System.out.println(event);
-        Boolean result = eventsController.saveEvent(event);
 
-        if(result) Notification.show("Event saved!");
+            Boolean result = eventsController.saveEvent(event);
+
+            if(result) Notification.show("Event saved!");
+        }
+
 
     }
 }

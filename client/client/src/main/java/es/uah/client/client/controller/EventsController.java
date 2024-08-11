@@ -56,6 +56,11 @@ public class EventsController {
 
     @ResponseBody
     public void delete(@RequestBody Integer event) {
+        List<Subscription> s = subscriptionsService.findSubscriptionsByEvent(event);
+        for(Subscription a : s){
+            System.out.println("Unsubscribing from: " + a);
+            subscriptionsService.deleteSubscription(a.getId());
+        }
         eventsService.deleteEvents(event);
     }
 
