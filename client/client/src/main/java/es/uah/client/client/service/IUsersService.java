@@ -13,7 +13,7 @@ public interface IUsersService {
 
     User findUsersByEmail(String email);
 
-    void saveUser(User user);
+    boolean saveUser(User user);
 
     void deleteUser(Integer id);
 

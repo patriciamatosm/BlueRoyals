@@ -17,8 +17,9 @@ public class UsersController {
 
     @PostMapping("/save/")
     public User save(@RequestBody User user) {
-        userService.saveUser(user);
-        return (User) userService.findUsersByUsername(user.getUsername());
+        boolean r = userService.saveUser(user);
+        if(r) return userService.findUsersByUsername(user.getUsername()).get(0);
+        else return null;
     }
 
     @PostMapping("/update/")

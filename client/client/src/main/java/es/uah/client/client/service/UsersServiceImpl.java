@@ -39,15 +39,23 @@ public class UsersServiceImpl implements IUsersService{
     }
 
     @Override
-    public void saveUser(User user) {
+    public boolean saveUser(User user) {
         if (user.getId() != null && user.getId() > 0) {
             template.put(url, user);
+            return true;
         } else {
-            user.setId(0);
-            template.postForObject(url, user, String.class);
+            User[] user2 = template.getForObject(url + "/find/" + user.getUsername(), User[].class);
+            System.out.println("Exist user:  " + Arrays.toString(user2));
+            if (user2 == null || user2.length == 0) {
+                System.out.println("eo");
+                user.setId(0);
+                template.postForObject(url, user, User.class);
+                return true;
+            } else {
+                return false;
+            }
         }
     }
-
     @Override
     public void deleteUser(Integer id) {
         template.delete(url + "/" + id);

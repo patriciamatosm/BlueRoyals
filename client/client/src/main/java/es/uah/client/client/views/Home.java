@@ -148,8 +148,13 @@ public class Home extends VerticalLayout {
                     Notification.show("Please fill all of the required fields.");
                 } else {
                     User user = new User(username, mail, password, name, surname);
+                    System.out.println("User to register: " + user);
                     User registeredUser = userController.save(user);
-                    Notification.show("Registration successful for user: " + registeredUser.getUsername());
+                    if(registeredUser == null){
+                        Notification.show("User already exists!");
+                    } else {
+                        Notification.show("Registration successful for user: " + registeredUser.getUsername());
+                    }
                 }
 
             } catch (Exception e) {
