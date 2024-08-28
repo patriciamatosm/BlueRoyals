@@ -22,6 +22,7 @@ public class Event {
 
     private Double longitude;
     private Double latitude;
+    private String image;
 
     public Date getEventDate() {
         return eventDate;
@@ -127,8 +128,17 @@ public class Event {
                 ", eventDate=" + eventDate +
                 ", description='" + description + '\'' +
                 ", location='" + location + '\'' +
+                ", image='" + image + '\'' +
                 ", longitude=" + longitude +
                 ", latitude=" + latitude +
                 '}';
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

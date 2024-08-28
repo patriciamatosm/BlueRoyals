@@ -9,21 +9,24 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.upload.Upload;
+import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.spring.annotation.UIScope;
 import es.uah.client.client.controller.EventsController;
 import es.uah.client.client.model.User;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Component;
 import es.uah.client.client.model.Event;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
@@ -39,6 +42,7 @@ public class CreateEvent extends VerticalLayout {
 
     private final EventsController eventsController;
     private H1  welcomeMessage;
+    private String uploadedImagePath;
 
     public CreateEvent(EventsController eventsController) {
         this.eventsController = eventsController;
@@ -75,6 +79,9 @@ public class CreateEvent extends VerticalLayout {
         TextField locationField = new TextField("Location");
         TextField maxUsersField = new TextField("Max Users");
 
+        Upload upload = getUpload();
+
+
         Button saveButton = new Button("Save");
         saveButton.addClickListener(e -> {
             saveEvent(nameField, descriptionField, eventDateField, locationField, maxUsersField);
@@ -93,7 +100,7 @@ public class CreateEvent extends VerticalLayout {
         FormLayout formLayout = new FormLayout();
 
         HorizontalLayout nameAndDateLayout = new HorizontalLayout();
-        nameAndDateLayout.add(nameField, eventDateField);
+        nameAndDateLayout.add(nameField, eventDateField, upload);
         nameAndDateLayout.setWidthFull();
         nameAndDateLayout.setSpacing(true);
 
@@ -112,11 +119,40 @@ public class CreateEvent extends VerticalLayout {
         return formLayout;
     }
 
+    private Upload getUpload() {
+        MemoryBuffer buffer = new MemoryBuffer();
+        Upload upload = new Upload(buffer);
+        upload.setAcceptedFileTypes("image/jpeg", "image/png", "image/gif");
+        upload.setMaxFiles(1);
+        upload.setMaxFileSize(1024 * 1024); // 1MB max size
+
+        Span uploadHint = new Span("Upload Event Image");
+        upload.setDropLabel(uploadHint);
+
+        upload.addSucceededListener(event -> {
+            InputStream inputStream = buffer.getInputStream();
+            String fileName = event.getFileName();
+            uploadedImagePath = eventsController.uploadEventImage(fileName, inputStream);
+            Notification.show("Image uploaded successfully! File name: " + fileName);
+        });
+
+        upload.addFailedListener(event -> {
+            Notification.show("Image upload failed: " + event.getReason().getMessage());
+        });
+        return upload;
+    }
+
     private void saveEvent(TextField nameField, TextArea descriptionField, DatePicker eventDateField, TextField locationField, TextField maxUsersField) {
         String name = nameField.getValue();
         String description = descriptionField.getValue();
         LocalDate eventDate = eventDateField.getValue();
         String location = locationField.getValue();
+
+        if (uploadedImagePath == null || uploadedImagePath.isEmpty()) {
+            Notification.show("Please upload an image before saving the event.");
+            return;
+        }
+
         int maxUsers;
         if(maxUsersField.getValue().isEmpty()) {
             maxUsers = 0;
@@ -158,6 +194,7 @@ public class CreateEvent extends VerticalLayout {
         event.setDelete(false);
         event.setLatitude(latitude);
         event.setLongitude(longitude);
+        event.setImage(uploadedImagePath);
 
         System.out.println(event);
 

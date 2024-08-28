@@ -6,6 +6,7 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -108,8 +109,15 @@ public class ViewEvents extends VerticalLayout implements AfterNavigationObserve
         cancelEventButton.getStyle().set("color", "white");
         cancelEventButton.getStyle().set("margin-top", "10px");
 
+        if(event.getImage() != null && !event.getImage().isEmpty()) {
+            Image eventImage = new Image(event.getImage(), "Event Image");
+            eventImage.setWidth("200px");
+            eventCard.add(eventName, eventDesc, eventImage, eventCreateUser, eventDate, eventLocation, maxUser, cancelEventButton);
 
-        eventCard.add(eventName, eventDesc, eventCreateUser, eventDate, eventLocation, maxUser, cancelEventButton);
+        } else {
+            eventCard.add(eventName, eventDesc, eventCreateUser, eventDate, eventLocation, maxUser, cancelEventButton);
+
+        }
 
         return eventCard;
     }
