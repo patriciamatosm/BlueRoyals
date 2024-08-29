@@ -36,4 +36,9 @@ public class GroupChatsServiceImpl implements IGroupChatsService{
     public void deleteGroupChats(Integer id) {
         groupChatsDAO.deleteGroupChats(id);
     }
+
+    @Override
+    public List<GroupChats> findGroupChatsByCreateUser(Integer idUser) {
+        return groupChatsDAO.findGroupChatsByCreateUser(idUser);
+    }
 }

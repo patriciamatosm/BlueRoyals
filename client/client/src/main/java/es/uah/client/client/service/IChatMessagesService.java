@@ -1,7 +1,6 @@
-package es.uah.chats.chats.service;
+package es.uah.client.client.service;
 
-import es.uah.chats.chats.model.ChatMessages;
-import es.uah.chats.chats.model.GroupChats;
+import es.uah.client.client.model.ChatMessages;
 
 import java.util.List;
 
@@ -15,7 +14,4 @@ public interface IChatMessagesService {
     void saveChatMessages(ChatMessages chat);
 
     void deleteChatMessages(Integer id);
-
-    List<ChatMessages> findChatMessagesByIdUser(Integer idUser);
-
 }

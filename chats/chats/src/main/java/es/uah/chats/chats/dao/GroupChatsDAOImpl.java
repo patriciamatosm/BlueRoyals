@@ -29,6 +29,11 @@ public class GroupChatsDAOImpl implements  IGroupChatsDAO{
     }
 
     @Override
+    public List<GroupChats> findGroupChatsByCreateUser(Integer idUser) {
+        return groupChatsJPA.findGroupChatsByCreateUser(idUser);
+    }
+
+    @Override
     public void saveGroupChats(GroupChats chat) {
         groupChatsJPA.save(chat);
     }

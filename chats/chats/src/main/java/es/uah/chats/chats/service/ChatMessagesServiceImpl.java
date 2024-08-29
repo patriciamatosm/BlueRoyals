@@ -37,4 +37,9 @@ public class ChatMessagesServiceImpl implements IChatMessagesService{
     public void deleteChatMessages(Integer id) {
         chatMessagesDAO.deleteChatMessages(id);
     }
+
+    @Override
+    public List<ChatMessages> findChatMessagesByIdUser(Integer idUser) {
+        return chatMessagesDAO.findChatMessagesByIdUser(idUser);
+    }
 }

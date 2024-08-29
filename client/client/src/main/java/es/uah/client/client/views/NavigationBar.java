@@ -27,10 +27,6 @@ public class NavigationBar extends HorizontalLayout {
         // Application logo and name
         Div logoLayout = new Div();
         logoLayout.getStyle().set("display", "flex").set("align-items", "center");
-//
-//        Span appName = new Span("BlueRoyals");
-//        appName.getStyle().set("color", "white").set("font-size", "24px").set("font-weight", "bold")
-//                .set("margin-left", "10px");
 
         // Load image from resources
         Image logo = new Image("/images/logo_4.png", "BlueRoyals Logo");
@@ -44,6 +40,9 @@ public class NavigationBar extends HorizontalLayout {
 
         Button homeButton = new Button("Home", e -> UI.getCurrent().navigate("index"));
         styleNavButton(homeButton);
+
+        Button chatsButton = new Button("Chats", click -> UI.getCurrent().navigate("chats"));
+        styleNavButton(chatsButton);
 
         MenuBar eventsMenu = new MenuBar();
         eventsMenu.addThemeVariants();
@@ -72,7 +71,7 @@ public class NavigationBar extends HorizontalLayout {
             UI.getCurrent().close();
         });
 
-        navButtons.add(homeButton, eventsMenu, userMenu);
+        navButtons.add(homeButton, chatsButton, eventsMenu, userMenu);
 
         add(logoLayout, navButtons);
         setAlignItems(Alignment.CENTER);

@@ -37,6 +37,12 @@ public class EventsController {
         return eventsService.findEventsByCreateUser(u.getId());
     }
 
+
+    @ResponseBody
+    public Event findEventsById(@RequestBody Integer id) {
+        return eventsService.findEventsById(id);
+    }
+
     @ResponseBody
     public List<Event> findEventsByUser(@RequestBody User u) {
         List<Subscription> s = subscriptionsService.findUserSubscriptions(u.getId());

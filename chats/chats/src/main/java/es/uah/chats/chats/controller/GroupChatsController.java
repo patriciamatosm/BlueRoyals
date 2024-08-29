@@ -27,6 +27,11 @@ public class GroupChatsController {
         return groupChatsService.findGroupChatsByIdEvent(idEvent);
     }
 
+    @GetMapping("/chats/user/{idUser}")
+    public List<GroupChats> findGroupChatsByIdUser(@PathVariable("idUser") Integer idUser) {
+        return groupChatsService.findGroupChatsByCreateUser(idUser);
+    }
+
     @PostMapping("/chats")
     public void saveGroupChats(@RequestBody GroupChats chat) {
         groupChatsService.saveGroupChats(chat);

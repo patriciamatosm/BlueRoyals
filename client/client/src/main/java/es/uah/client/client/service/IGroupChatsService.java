@@ -1,6 +1,7 @@
-package es.uah.chats.chats.service;
+package es.uah.client.client.service;
 
-import es.uah.chats.chats.model.GroupChats;
+
+import es.uah.client.client.model.GroupChats;
 
 import java.util.List;
 
