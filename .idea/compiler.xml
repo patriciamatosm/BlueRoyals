@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="chats" />
         <module name="client" />
         <module name="subscription" />
         <module name="eurekaServer" />
@@ -17,6 +18,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="chats" options="-parameters" />
       <module name="client" options="-parameters" />
       <module name="eurekaServer" options="-parameters" />
       <module name="events" options="-parameters" />

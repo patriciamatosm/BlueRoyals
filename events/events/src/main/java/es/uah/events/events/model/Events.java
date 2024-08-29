@@ -13,7 +13,8 @@ import java.util.Date;
         @NamedQuery(name = "Events.findByCreateUser", query = "SELECT r FROM Events r WHERE r.createUser = :createUser " +
                 "AND isDelete = false"),
         @NamedQuery(name = "Events.findByEventName", query = "SELECT r FROM Events r WHERE r.eventName = :eventName " +
-                "AND isDelete = false")})
+                "AND isDelete = false")
+})
 public class Events implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

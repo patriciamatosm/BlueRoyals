@@ -10,6 +10,7 @@
         <option value="$PROJECT_DIR$/subscription/subscription/pom.xml" />
         <option value="$PROJECT_DIR$/eurekaServer/eurekaServer/pom.xml" />
         <option value="$PROJECT_DIR$/gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/chats/chats/pom.xml" />
       </list>
     </option>
   </component>
