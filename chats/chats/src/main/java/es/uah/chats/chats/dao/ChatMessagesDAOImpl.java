@@ -24,7 +24,7 @@ public class ChatMessagesDAOImpl implements  IChatMessagesDAO{
     }
 
     @Override
-    public ChatMessages findChatMessagesByIdChat(Integer idChat) {
+    public List<ChatMessages> findChatMessagesByIdChat(Integer idChat) {
         return chatMessagesJPA.findByIdChat(idChat);
     }
 

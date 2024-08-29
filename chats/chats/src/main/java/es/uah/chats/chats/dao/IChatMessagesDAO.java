@@ -9,7 +9,7 @@ public interface IChatMessagesDAO {
     
     ChatMessages findChatMessagesById(Integer id);
 
-    ChatMessages findChatMessagesByIdChat(Integer idChat);
+    List<ChatMessages> findChatMessagesByIdChat(Integer idChat);
 
     List<ChatMessages> findChatMessagesByIdUser(Integer idUser);
 

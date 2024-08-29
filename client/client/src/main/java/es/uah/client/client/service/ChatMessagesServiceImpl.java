@@ -28,8 +28,8 @@ public class ChatMessagesServiceImpl implements IChatMessagesService {
     }
 
     @Override
-    public ChatMessages findChatMessagesByIdChat(Integer idChat) {
-        return template.getForObject(url + "/chat/" + idChat, ChatMessages.class);
+    public List<ChatMessages> findChatMessagesByIdChat(Integer idChat) {
+        return Arrays.asList(template.getForObject(url + "/chat/" + idChat, ChatMessages[].class));
     }
 
     @Override

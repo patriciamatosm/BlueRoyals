@@ -42,7 +42,7 @@ import static java.time.LocalDate.now;
 public class CreateEvent extends VerticalLayout {
 
     private final EventsController eventsController;
-    private H1  welcomeMessage;
+    private H1 welcomeMessage;
     private String uploadedImagePath;
 
     public CreateEvent(EventsController eventsController) {

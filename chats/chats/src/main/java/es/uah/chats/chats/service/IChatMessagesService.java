@@ -10,7 +10,7 @@ public interface IChatMessagesService {
 
     ChatMessages findChatMessagesById(Integer id);
 
-    ChatMessages findChatMessagesByIdChat(Integer idChat);
+    List<ChatMessages> findChatMessagesByIdChat(Integer idChat);
 
     void saveChatMessages(ChatMessages chat);
 

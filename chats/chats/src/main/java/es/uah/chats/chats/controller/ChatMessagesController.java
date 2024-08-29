@@ -24,7 +24,7 @@ public class ChatMessagesController {
     }
 
     @GetMapping("/msg/chat/{idChat}")
-    public ChatMessages findChatMessagesByIdChat(@PathVariable("idChat") Integer idChat) {
+    public List<ChatMessages> findChatMessagesByIdChat(@PathVariable("idChat") Integer idChat) {
         return chatMessagesService.findChatMessagesByIdChat(idChat);
     }
 

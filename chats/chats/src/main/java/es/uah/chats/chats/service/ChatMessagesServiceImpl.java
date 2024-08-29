@@ -24,7 +24,7 @@ public class ChatMessagesServiceImpl implements IChatMessagesService{
     }
 
     @Override
-    public ChatMessages findChatMessagesByIdChat(Integer idChat) {
+    public List<ChatMessages> findChatMessagesByIdChat(Integer idChat) {
         return chatMessagesDAO.findChatMessagesByIdChat(idChat);
     }
 
