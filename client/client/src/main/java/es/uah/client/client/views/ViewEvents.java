@@ -14,7 +14,6 @@ import com.vaadin.flow.router.AfterNavigationEvent;
 import com.vaadin.flow.router.AfterNavigationObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.spring.annotation.UIScope;
 import es.uah.client.client.controller.EventsController;
@@ -25,9 +24,10 @@ import es.uah.client.client.model.Subscription;
 import es.uah.client.client.model.User;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Component
@@ -77,93 +77,84 @@ public class ViewEvents extends VerticalLayout implements AfterNavigationObserve
 
     }
 
+    public String formatDate(LocalDate date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
+        return date.format(formatter);
+    }
+
     private Div createEventCard(Event event) {
         Div eventCard = new Div();
         eventCard.addClassName("event-card");
+        eventCard.getStyle().set("padding", "20px")
+                .set("border", "1px solid #ddd")
+                .set("border-radius", "8px")
+                .set("box-shadow", "0px 4px 8px rgba(0, 0, 0, 0.1)")
+                .set("width", "400px")
+                .set("overflow", "hidden");
 
         Div eventName = new Div();
         eventName.setText(event.getEventName());
-        eventName.getStyle().set("font-size", "20px");
-        eventName.getStyle().set("font-weight", "bold");
+        eventName.getStyle().set("font-size", "20px")
+                .set("font-weight", "bold")
+                .set("margin-bottom", "10px");
 
         Div eventLocation = new Div();
         eventLocation.setText("Location: " + event.getLocation());
+        eventLocation.getStyle().set("margin-bottom", "10px");
 
         Div eventDesc = new Div();
         eventDesc.setText("Description: " + event.getDescription());
+        eventDesc.getStyle().set("margin-bottom", "10px");
 
         Div eventCreateUser = new Div();
         User createUser = usersController.findUsersById(event.getCreateUser());
         eventCreateUser.setText("Host: " + createUser.getName() + " " + createUser.getSurname());
+        eventCreateUser.getStyle().set("margin-bottom", "10px");
 
         Div eventDate = new Div();
-        eventDate.setText("Event date: " + event.getCreateDate());
+        LocalDate eventLocalDate = event.getCreateDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // Convert Date to LocalDate
+        String formattedDate = formatDate(eventLocalDate);
+        eventDate.setText("Event date: " + formattedDate);
+//        eventDate.setText("Event date: " + event.getCreateDate());
+        eventDate.getStyle().set("margin-bottom", "10px");
 
         Div maxUser = new Div();
         List<Subscription> subs = subscriptionsController.findByIdEvent(event.getId());
         maxUser.setText("Attendance: " + subs.size() + "/" + event.getMaxUser());
+        maxUser.getStyle().set("margin-bottom", "10px");
 
         User user = VaadinSession.getCurrent().getAttribute(User.class);
 
         Button cancelEventButton = new Button("Cancel Event", e -> {
             cancelEvent(event.getId());
         });
-        cancelEventButton.getStyle().set("margin-left", "auto");
-        cancelEventButton.getStyle().set("background-color", "red");
-        cancelEventButton.getStyle().set("color", "white");
-        cancelEventButton.getStyle().set("margin-top", "10px");
+        cancelEventButton.getStyle().set("margin-left", "auto")
+                .set("background-color", "red")
+                .set("color", "white")
+                .set("margin-top", "10px");
 
-        if(event.getImage() != null && !event.getImage().isEmpty()) {
-////            String imagePath =  System.getProperty("user.dir") + "\\client\\client\\uploads\\" + event.getImage().substring(event.getImage().lastIndexOf("\\") + 1);
-//            String imagePath2 =  "uploads\\" + event.getImage().substring(event.getImage().lastIndexOf("\\") + 1);
-//
-//            StreamResource resource = new StreamResource(imagePath2, () -> {
-//                try {
-//                    File file = new File(imagePath2);
-//                    return (InputStream) new FileInputStream(file);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    return null;
-//                }
-//            });
-//
-//            Image eventImage = new Image(resource, "Event Image");
-//            System.out.println("Image= " + event.getImage());
-//            System.out.println("Path= " + imagePath2);
-//
-//            Image eventImage2 = new Image(imagePath2, "Event Image");
-//            System.out.println("Image= " + event.getImage());
-//            System.out.println("Path2= " + imagePath2);
-//
-//
-//
-//            eventImage2.setWidth("200px");
-
+        if (event.getImage() != null && !event.getImage().isEmpty()) {
             String imageUrl = "/files/" + event.getImage().substring(event.getImage().lastIndexOf("/") + 1);
             System.out.println("Path= " + imageUrl);
 
-//            StreamResource resource = new StreamResource(imageUrl, () -> {
-//                try {
-//                    File file = new File(imageUrl);
-//                    return (InputStream) new FileInputStream(file);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    return null;
-//                }
-//            });
-
             Image eventImage = new Image(imageUrl, "Event Image");
-            eventImage.setWidth("400px");
+            eventImage.setWidth("100%");
             eventImage.setHeight("auto");
 
             eventImage.getStyle().set("border-radius", "8px")
-                    .set("box-shadow", "0px 4px 8px rgba(0, 0, 0, 0.1)");
+                    .set("box-shadow", "0px 4px 8px rgba(0, 0, 0, 0.1)")
+                    .set("object-fit", "cover");
 
-            eventCard.add(eventName, eventDesc, eventImage, eventCreateUser, eventDate, eventLocation, maxUser, cancelEventButton);
+            Div imageContainer = new Div();
+            imageContainer.add(eventImage);
+            imageContainer.getStyle().set("width", "100%")
+                    .set("overflow", "hidden")
+                    .set("margin-bottom", "10px");
+
+            eventCard.add(imageContainer, eventName, eventDesc, eventCreateUser, eventDate, eventLocation, maxUser, cancelEventButton);
 
         } else {
             eventCard.add(eventName, eventDesc, eventCreateUser, eventDate, eventLocation, maxUser, cancelEventButton);
-
         }
 
         return eventCard;
