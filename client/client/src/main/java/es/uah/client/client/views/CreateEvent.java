@@ -14,6 +14,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.upload.Upload;
+import com.vaadin.flow.component.upload.UploadI18N;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -100,9 +101,14 @@ public class CreateEvent extends VerticalLayout {
         FormLayout formLayout = new FormLayout();
 
         HorizontalLayout nameAndDateLayout = new HorizontalLayout();
-        nameAndDateLayout.add(nameField, eventDateField, upload);
+        nameAndDateLayout.add(nameField, eventDateField);
         nameAndDateLayout.setWidthFull();
         nameAndDateLayout.setSpacing(true);
+
+//        HorizontalLayout uploadLayout = new HorizontalLayout();
+//        uploadLayout.add(upload);
+//        uploadLayout.setWidthFull();
+//        uploadLayout.setSpacing(true);
 
         HorizontalLayout buttonsLayout = new HorizontalLayout();
         buttonsLayout.add(closeButton, saveButton);
@@ -110,7 +116,7 @@ public class CreateEvent extends VerticalLayout {
         buttonsLayout.setSpacing(true);
         buttonsLayout.getStyle().set("justify-content", "center");
 
-        formLayout.add(nameAndDateLayout, descriptionField, locationField, maxUsersField, buttonsLayout);
+        formLayout.add(nameAndDateLayout, upload, descriptionField, locationField, maxUsersField, buttonsLayout);
 
         formLayout.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1)
@@ -122,11 +128,11 @@ public class CreateEvent extends VerticalLayout {
     private Upload getUpload() {
         MemoryBuffer buffer = new MemoryBuffer();
         Upload upload = new Upload(buffer);
-        upload.setAcceptedFileTypes("image/jpeg", "image/png", "image/gif");
+        upload.setAcceptedFileTypes("image/jpeg", "image/png", "image/jpg");
         upload.setMaxFiles(1);
         upload.setMaxFileSize(1024 * 1024); // 1MB max size
 
-        Span uploadHint = new Span("Upload Event Image");
+        Span uploadHint = new Span("Upload");
         upload.setDropLabel(uploadHint);
 
         upload.addSucceededListener(event -> {
@@ -141,6 +147,7 @@ public class CreateEvent extends VerticalLayout {
         });
         return upload;
     }
+
 
     private void saveEvent(TextField nameField, TextArea descriptionField, DatePicker eventDateField, TextField locationField, TextField maxUsersField) {
         String name = nameField.getValue();

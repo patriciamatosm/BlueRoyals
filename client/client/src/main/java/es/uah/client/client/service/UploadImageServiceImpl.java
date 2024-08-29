@@ -3,6 +3,8 @@ package es.uah.client.client.service;
 import com.vaadin.flow.component.notification.Notification;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -12,10 +14,15 @@ import java.nio.file.StandardCopyOption;
 
 @Service
 public class UploadImageServiceImpl implements IUploadImageService{
+
+    private static final String UPLOAD_DIR = System.getProperty("user.dir").replace("\\", "/") + "/client/client/uploads/";
+
     @Override
     public String saveImage(InputStream inputStream, String fileName) {
+        String saveDirectory = UPLOAD_DIR + fileName;
+        System.out.println("saveDir= " + saveDirectory);
         try {
-            Path folder = Paths.get("../images/folder");
+            Path folder = Paths.get(UPLOAD_DIR);
             if (!Files.exists(folder)) {
                 Files.createDirectories(folder);
             }
@@ -23,11 +30,25 @@ public class UploadImageServiceImpl implements IUploadImageService{
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
 
 
-            return "/images/" + fileName;
+            return saveDirectory;
         } catch (IOException e) {
             Notification.show("Error saving image: " + e.getMessage());
+            return null;
         }
-        return null;
+
+
+//        try {
+//            File file = new File(UPLOAD_DIR + fileName);
+//            if (!file.exists()) {
+//                file.getParentFile().mkdirs();
+//            }
+//            FileOutputStream fos = new FileOutputStream(file);
+//
+//            return UPLOAD_DIR + fileName;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
     }
 
 }

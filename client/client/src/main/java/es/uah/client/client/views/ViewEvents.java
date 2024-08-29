@@ -14,6 +14,7 @@ import com.vaadin.flow.router.AfterNavigationEvent;
 import com.vaadin.flow.router.AfterNavigationObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.spring.annotation.UIScope;
 import es.uah.client.client.controller.EventsController;
@@ -24,6 +25,9 @@ import es.uah.client.client.model.Subscription;
 import es.uah.client.client.model.User;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 
 @Component
@@ -99,7 +103,7 @@ public class ViewEvents extends VerticalLayout implements AfterNavigationObserve
         List<Subscription> subs = subscriptionsController.findByIdEvent(event.getId());
         maxUser.setText("Attendance: " + subs.size() + "/" + event.getMaxUser());
 
-        User user = (User) VaadinSession.getCurrent().getAttribute(User.class);
+        User user = VaadinSession.getCurrent().getAttribute(User.class);
 
         Button cancelEventButton = new Button("Cancel Event", e -> {
             cancelEvent(event.getId());
@@ -110,8 +114,51 @@ public class ViewEvents extends VerticalLayout implements AfterNavigationObserve
         cancelEventButton.getStyle().set("margin-top", "10px");
 
         if(event.getImage() != null && !event.getImage().isEmpty()) {
-            Image eventImage = new Image(event.getImage(), "Event Image");
-            eventImage.setWidth("200px");
+////            String imagePath =  System.getProperty("user.dir") + "\\client\\client\\uploads\\" + event.getImage().substring(event.getImage().lastIndexOf("\\") + 1);
+//            String imagePath2 =  "uploads\\" + event.getImage().substring(event.getImage().lastIndexOf("\\") + 1);
+//
+//            StreamResource resource = new StreamResource(imagePath2, () -> {
+//                try {
+//                    File file = new File(imagePath2);
+//                    return (InputStream) new FileInputStream(file);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    return null;
+//                }
+//            });
+//
+//            Image eventImage = new Image(resource, "Event Image");
+//            System.out.println("Image= " + event.getImage());
+//            System.out.println("Path= " + imagePath2);
+//
+//            Image eventImage2 = new Image(imagePath2, "Event Image");
+//            System.out.println("Image= " + event.getImage());
+//            System.out.println("Path2= " + imagePath2);
+//
+//
+//
+//            eventImage2.setWidth("200px");
+
+            String imageUrl = "/files/" + event.getImage().substring(event.getImage().lastIndexOf("/") + 1);
+            System.out.println("Path= " + imageUrl);
+
+//            StreamResource resource = new StreamResource(imageUrl, () -> {
+//                try {
+//                    File file = new File(imageUrl);
+//                    return (InputStream) new FileInputStream(file);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    return null;
+//                }
+//            });
+
+            Image eventImage = new Image(imageUrl, "Event Image");
+            eventImage.setWidth("400px");
+            eventImage.setHeight("auto");
+
+            eventImage.getStyle().set("border-radius", "8px")
+                    .set("box-shadow", "0px 4px 8px rgba(0, 0, 0, 0.1)");
+
             eventCard.add(eventName, eventDesc, eventImage, eventCreateUser, eventDate, eventLocation, maxUser, cancelEventButton);
 
         } else {
@@ -153,7 +200,7 @@ public class ViewEvents extends VerticalLayout implements AfterNavigationObserve
 
         contentLayout.add(spacer);
 
-        User user = (User) VaadinSession.getCurrent().getAttribute(User.class);
+        User user = VaadinSession.getCurrent().getAttribute(User.class);
         System.out.println("User session: " + user);
 
         List<Event> events = eventsController.findEventsByUserCreated(user);
