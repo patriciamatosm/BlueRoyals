@@ -3,6 +3,7 @@ package es.uah.chats.chats.service;
 import es.uah.chats.chats.dao.IChatMessagesDAO;
 import es.uah.chats.chats.dao.IGroupChatsDAO;
 import es.uah.chats.chats.model.ChatMessages;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +30,11 @@ public class ChatMessagesServiceImpl implements IChatMessagesService{
     }
 
     @Override
-    public void saveChatMessages(ChatMessages chat) {
-        chatMessagesDAO.saveChatMessages(chat);
+    public ChatMessages saveChatMessages(ChatMessages chat) {
+        if (chat.getTextMsg().length() > 255) {
+            throw new ConstraintViolationException("Message cannot exceed 255 characters", null);
+        }
+        return chatMessagesDAO.saveChatMessages(chat);
     }
 
     @Override

@@ -33,12 +33,12 @@ public class ChatMessagesServiceImpl implements IChatMessagesService {
     }
 
     @Override
-    public void saveChatMessages(ChatMessages chat) {
+    public ChatMessages saveChatMessages(ChatMessages chat) {
         if (chat.getId() != null && chat.getId() > 0) {
-            template.postForObject(url, chat,  String.class);
+            return template.postForObject(url, chat,  ChatMessages.class);
         } else {
             chat.setId(0);
-            template.postForObject(url, chat, String.class);
+            return template.postForObject(url, chat, ChatMessages.class);
         }
     }
 

@@ -52,7 +52,7 @@ public class GroupChatsController {
     }
 
     @ResponseBody
-    public void createChatMesage(@RequestBody GroupChats chat, @RequestBody User user, @RequestBody String content) {
+    public ChatMessages createChatMesage(@RequestBody GroupChats chat, @RequestBody User user, @RequestBody String content) {
         ChatMessages msg = new ChatMessages();
         msg.setTextMsg(content);
         msg.setIdUser(user.getId());
@@ -62,7 +62,7 @@ public class GroupChatsController {
         Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         msg.setDate(date);
 
-        chatMessagesService.saveChatMessages(msg);
+        return chatMessagesService.saveChatMessages(msg);
 
     }
 

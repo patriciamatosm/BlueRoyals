@@ -29,8 +29,8 @@ public class ChatMessagesController {
     }
 
     @PostMapping("/msg")
-    public void saveChatMessages(@RequestBody ChatMessages chat) {
-        chatMessagesService.saveChatMessages(chat);
+    public ChatMessages saveChatMessages(@RequestBody ChatMessages chat) {
+        return chatMessagesService.saveChatMessages(chat);
     }
 
     @DeleteMapping("/msg/{id}")

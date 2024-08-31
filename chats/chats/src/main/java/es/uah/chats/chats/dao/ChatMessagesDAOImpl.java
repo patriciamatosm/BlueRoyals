@@ -34,8 +34,8 @@ public class ChatMessagesDAOImpl implements  IChatMessagesDAO{
     }
 
     @Override
-    public void saveChatMessages(ChatMessages chat) {
-        chatMessagesJPA.save(chat);
+    public ChatMessages saveChatMessages(ChatMessages chat) {
+        return chatMessagesJPA.save(chat);
     }
 
     @Override

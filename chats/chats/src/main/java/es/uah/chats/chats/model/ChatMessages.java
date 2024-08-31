@@ -2,6 +2,7 @@ package es.uah.chats.chats.model;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -21,6 +22,7 @@ public class ChatMessages implements Serializable {
     private Integer id;
 
     @Column(name = "text_msg")
+    @Size(max = 255, message = "Message cannot exceed 255 characters")
     private String textMsg;
 
     @Column(name = "id_user")

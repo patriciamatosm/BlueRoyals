@@ -10,6 +10,7 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
@@ -52,6 +53,7 @@ public class ChatsView extends VerticalLayout {
     private H1  welcomeMessage;
 
     private H3 welcomeMessage2;
+    private final int MAX_LENGTH = 255;
 
     public ChatsView(GroupChatsController chatsController, EventsController eventsController, UsersController usersController) {
         this.chatsController = chatsController;
@@ -131,13 +133,59 @@ public class ChatsView extends VerticalLayout {
         return date.format(formatter);
     }
 
+    private HorizontalLayout createMessageComponent(ChatMessages message, User currentUser, boolean now) {
+        Div messageDiv = new Div();
+        String date;
+
+        if(now) {
+            date = "now";
+        } else {
+            LocalDate eventLocalDate = message.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // Convert Date to LocalDate
+            date = formatDate(eventLocalDate);
+        }
+
+        messageDiv.setText(usersController.findUsersById(message.getIdUser()).getName() + ": " + message.getTextMsg() +
+                " (" + date + ")");
+
+        HorizontalLayout messageLayout = new HorizontalLayout(messageDiv);
+        messageLayout.setWidthFull();
+        if (message.getIdUser().equals(currentUser.getId())) {
+            messageLayout.setJustifyContentMode(JustifyContentMode.END);
+            messageDiv.getStyle().set("background-color", "#e3f2fd");
+        } else {
+            messageLayout.setJustifyContentMode(JustifyContentMode.START);
+            messageDiv.getStyle().set("background-color", "#f1f8e9");
+        }
+        messageDiv.getStyle().set("padding", "10px").set("margin", "5px 0");
+        return messageLayout;
+    }
+
     private void openChatDialog(GroupChats chat) {
         Dialog chatDialog = new Dialog();
-        chatDialog.setWidth("1000px");
-        chatDialog.setHeight("1000px");
+//        chatDialog.setWidth("1000px");
+//        chatDialog.setHeight("1000px");
+//        chatDialog.setWidth("60%"); // Adjust width as needed
+//        chatDialog.setHeight("80%"); // Adjust height as needed
+//        chatDialog.getElement().getStyle().set("max-width", "1000px"); // Max width
+//        chatDialog.getElement().getStyle().set("overflow", "hidden");
+        chatDialog.setWidth("600px");
+        chatDialog.setHeight("70vh"); // 70% of the viewport height
+        chatDialog.setResizable(true);
 
-        VerticalLayout messageLayout = new VerticalLayout();
-        messageLayout.setWidthFull();
+//        VerticalLayout chatContent = new VerticalLayout();
+//        chatContent.setWidthFull();
+//        chatContent.setHeightFull();
+////        chatContent.getStyle().set("overflow-y", "auto");
+//        chatContent.setPadding(false);
+//        chatContent.setSpacing(false);
+//        chatContent.getStyle().set("overflow-y", "auto"); // Enable vertical scrolling
+//        chatContent.setHeight("calc(100% - 100px)");
+
+        Div messagesContainer = new Div();
+        messagesContainer.setHeight("calc(100% - 120px)"); // Reserve space for the input area
+        messagesContainer.getStyle().set("overflow-y", "auto");
+        messagesContainer.setWidthFull();
+        messagesContainer.addClassName("messages-container");
 
         List<ChatMessages> messages = chatsController.getMessagesByChat(chat.getId());
         System.out.println("mensajes= " + messages);
@@ -149,46 +197,41 @@ public class ChatsView extends VerticalLayout {
         welcomeMessage2.getStyle().set("color", "dark-grey");
         welcomeMessage2.getStyle().set("text-align", "left");
         welcomeMessage2.getStyle().set("margin-bottom", "20px");
+//        chatDialog.add(welcomeMessage2);
 
 
         if(messages != null && !messages.isEmpty()){
             for (ChatMessages message : messages) {
-                if(message != null){
-                    Div messageDiv = new Div();
-
-                    LocalDate eventLocalDate = message.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // Convert Date to LocalDate
-                    String formattedDate = formatDate(eventLocalDate);
-
-                    messageDiv.setText(usersController.findUsersById(message.getIdUser()).getName() + ": " + message.getTextMsg() +
-                            " (" + formattedDate + ")");
-                    if (message.getIdUser().equals(currentUser.getId())) {
-                        messageDiv.getStyle().set("margin-left", "auto").set("background-color", "#e3f2fd");
-                    } else {
-                        messageDiv.getStyle().set("margin-right", "auto").set("background-color", "#f1f8e9");
-                    }
-                    messageDiv.getStyle().set("padding", "10px").set("margin", "5px 0");
-                    messageLayout.add(messageDiv);
-                }
+                messagesContainer.add(createMessageComponent(message, currentUser, false));
             }
         }
+
+//        chatDialog.add(chatContent);
+
 
         // Add text area and send button for sending messages
         TextArea messageInput = new TextArea();
         messageInput.setPlaceholder("Type your message...");
         messageInput.setWidthFull();
+        messageInput.setMaxLength(MAX_LENGTH);
+
+        messageInput.addValueChangeListener(event -> {
+            int remaining = MAX_LENGTH - event.getValue().length();
+            messageInput.setHelperText(remaining + " characters left");
+        });
 
         Button sendButton = new Button("Send", e -> {
             String content = messageInput.getValue();
-            if (!content.trim().isEmpty()) {
+            if (content.trim().length() > MAX_LENGTH) {
+                Notification.show("Message is too long! Maximum length is " + MAX_LENGTH + " characters.");
+            }
+            else if (!content.trim().isEmpty()) {
                 // Save the message using the chatsController
                 chatsController.createChatMesage(chat, currentUser, content);
-                Div newMessageDiv = new Div();
-                newMessageDiv.setText(currentUser.getName() + ": " + content +
-                        " (" + "now" + ")");
-                newMessageDiv.getStyle().set("text-align", "right").set("background-color", "#e3f2fd")
-                        .set("padding", "10px").set("margin", "5px 0");
-
-                messageLayout.add(newMessageDiv);
+                ChatMessages mNew = new ChatMessages();
+                mNew.setTextMsg(content);
+                mNew.setIdUser(currentUser.getId());
+                messagesContainer.add(createMessageComponent(mNew, currentUser, true));
                 messageInput.clear();
             } else {
                 Notification.show("Message cannot be empty.");
@@ -196,15 +239,35 @@ public class ChatsView extends VerticalLayout {
         });
         sendButton.getStyle().set("background-color", "#4CAF50").set("color", "white");
 
+
         HorizontalLayout messageInputLayout = new HorizontalLayout(messageInput, sendButton);
+//        messageInputLayout.setWidthFull();
         messageInputLayout.setWidthFull();
+//        messageInputLayout.setPadding(true);
+        messageInputLayout.setAlignItems(FlexComponent.Alignment.END);
+        messageInputLayout.setSpacing(true);
+//
+//        Div spacer2 = new Div();
+//        spacer2.setHeight("10px");
+
+//        chatDialog.add(spacer2);
+
+        HorizontalLayout footerLayout = new HorizontalLayout(messageInputLayout);
+        footerLayout.setWidthFull();
+        footerLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+
 
         Button closeButton = new Button("Close", e -> chatDialog.close());
         closeButton.getStyle().set("background-color", "red");
         closeButton.getStyle().set("color", "white");
         closeButton.getStyle().set("margin-right", "auto");
 
-        chatDialog.add(welcomeMessage2, messageLayout, messageInputLayout, closeButton);
+        VerticalLayout mainLayout = new VerticalLayout(welcomeMessage2, messagesContainer, footerLayout, closeButton);
+        mainLayout.setPadding(false);
+        mainLayout.setSpacing(false);
+        mainLayout.setSizeFull();
+
+        chatDialog.add(mainLayout);
         chatDialog.open();
     }
 }

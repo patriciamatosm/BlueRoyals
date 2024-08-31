@@ -13,7 +13,7 @@ public interface IChatMessagesDAO {
 
     List<ChatMessages> findChatMessagesByIdUser(Integer idUser);
 
-    void saveChatMessages(ChatMessages chat);
+    ChatMessages saveChatMessages(ChatMessages chat);
 
     void deleteChatMessages(Integer id);
 

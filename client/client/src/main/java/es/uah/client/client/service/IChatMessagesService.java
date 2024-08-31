@@ -11,7 +11,7 @@ public interface IChatMessagesService {
 
     List<ChatMessages> findChatMessagesByIdChat(Integer idChat);
 
-    void saveChatMessages(ChatMessages chat);
+    ChatMessages saveChatMessages(ChatMessages chat);
 
     void deleteChatMessages(Integer id);
 }
