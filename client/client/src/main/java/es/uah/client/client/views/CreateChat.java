@@ -2,7 +2,6 @@ package es.uah.client.client.views;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -11,16 +10,13 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.spring.annotation.UIScope;
 import es.uah.client.client.controller.EventsController;
 import es.uah.client.client.controller.GroupChatsController;
-import es.uah.client.client.controller.SubscriptionsController;
 import es.uah.client.client.model.Event;
 import es.uah.client.client.model.GroupChats;
 import es.uah.client.client.model.User;
@@ -36,20 +32,18 @@ public class CreateChat extends VerticalLayout {
     private final EventsController eventsController;
     private User currentUser;
 
-    private H1 welcomeMessage;
-
     public CreateChat(GroupChatsController groupChatsController, EventsController eventsController) {
         this.chatsController = groupChatsController;
         this.eventsController = eventsController;
 
-        currentUser = (User) VaadinSession.getCurrent().getAttribute(User.class);
+        currentUser = VaadinSession.getCurrent().getAttribute(User.class);
 
 
         setSizeFull();
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
-        welcomeMessage = new H1("Create chat");
+        H1 welcomeMessage = new H1("Create chat");
 
         welcomeMessage.getStyle().set("font-size", "24px");
         welcomeMessage.getStyle().set("font-weight", "bold");

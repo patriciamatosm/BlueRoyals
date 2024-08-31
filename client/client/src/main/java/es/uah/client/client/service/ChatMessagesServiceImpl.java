@@ -1,7 +1,6 @@
 package es.uah.client.client.service;
 
 import es.uah.client.client.model.ChatMessages;
-import es.uah.client.client.model.GroupChats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

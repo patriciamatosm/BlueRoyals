@@ -1,7 +1,6 @@
 package es.uah.client.client.views;
 
 
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -14,7 +13,6 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.upload.Upload;
-import com.vaadin.flow.component.upload.UploadI18N;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -32,7 +30,6 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
 
-import static java.time.LocalDate.now;
 
 @Component
 @UIScope
@@ -42,7 +39,6 @@ import static java.time.LocalDate.now;
 public class CreateEvent extends VerticalLayout {
 
     private final EventsController eventsController;
-    private H1 welcomeMessage;
     private String uploadedImagePath;
 
     public CreateEvent(EventsController eventsController) {
@@ -51,7 +47,7 @@ public class CreateEvent extends VerticalLayout {
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
-        welcomeMessage = new H1("Create your own event");
+        H1 welcomeMessage = new H1("Create your own event");
 
         welcomeMessage.getStyle().set("font-size", "24px");
         welcomeMessage.getStyle().set("font-weight", "bold");
@@ -105,10 +101,6 @@ public class CreateEvent extends VerticalLayout {
         nameAndDateLayout.setWidthFull();
         nameAndDateLayout.setSpacing(true);
 
-//        HorizontalLayout uploadLayout = new HorizontalLayout();
-//        uploadLayout.add(upload);
-//        uploadLayout.setWidthFull();
-//        uploadLayout.setSpacing(true);
 
         HorizontalLayout buttonsLayout = new HorizontalLayout();
         buttonsLayout.add(closeButton, saveButton);
@@ -142,9 +134,7 @@ public class CreateEvent extends VerticalLayout {
             Notification.show("Image uploaded successfully! File name: " + fileName);
         });
 
-        upload.addFailedListener(event -> {
-            Notification.show("Image upload failed: " + event.getReason().getMessage());
-        });
+        upload.addFailedListener(event -> Notification.show("Image upload failed: " + event.getReason().getMessage()));
         return upload;
     }
 

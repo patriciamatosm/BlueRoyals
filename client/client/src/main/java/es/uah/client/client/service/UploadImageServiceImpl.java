@@ -3,8 +3,6 @@ package es.uah.client.client.service;
 import com.vaadin.flow.component.notification.Notification;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -36,19 +34,6 @@ public class UploadImageServiceImpl implements IUploadImageService{
             return null;
         }
 
-
-//        try {
-//            File file = new File(UPLOAD_DIR + fileName);
-//            if (!file.exists()) {
-//                file.getParentFile().mkdirs();
-//            }
-//            FileOutputStream fos = new FileOutputStream(file);
-//
-//            return UPLOAD_DIR + fileName;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
     }
 
 }

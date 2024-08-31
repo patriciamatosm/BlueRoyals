@@ -1,8 +1,6 @@
 package es.uah.client.client.service;
 
-import es.uah.client.client.model.Event;
 import es.uah.client.client.model.Subscription;
-import es.uah.client.client.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

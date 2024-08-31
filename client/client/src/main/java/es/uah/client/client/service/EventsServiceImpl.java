@@ -1,7 +1,6 @@
 package es.uah.client.client.service;
 
 import es.uah.client.client.model.Event;
-import es.uah.client.client.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -38,8 +37,7 @@ public class EventsServiceImpl implements IEventsService{
             list = EventsList.subList(startItem, toIndex);
         }
 
-        Page<Event> page = new PageImpl<>(list, PageRequest.of(currentPage, pageSize), EventsList.size());
-        return page;
+        return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), EventsList.size());
     }
 
     @Override
