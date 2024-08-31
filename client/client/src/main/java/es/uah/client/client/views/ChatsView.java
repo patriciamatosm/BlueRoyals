@@ -1,20 +1,17 @@
 package es.uah.client.client.views;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
@@ -26,7 +23,6 @@ import es.uah.client.client.model.ChatMessages;
 import es.uah.client.client.model.Event;
 import es.uah.client.client.model.GroupChats;
 import es.uah.client.client.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -50,9 +46,6 @@ public class ChatsView extends VerticalLayout {
 
     private User currentUser;
 
-    private H1  welcomeMessage;
-
-    private H3 welcomeMessage2;
     private final int MAX_LENGTH = 255;
 
     public ChatsView(GroupChatsController chatsController, EventsController eventsController, UsersController usersController) {
@@ -70,12 +63,12 @@ public class ChatsView extends VerticalLayout {
     }
 
     private void refreshChats(){
-        currentUser = (User) VaadinSession.getCurrent().getAttribute(User.class);
+        currentUser = VaadinSession.getCurrent().getAttribute(User.class);
 
         NavigationBar navigationBar = new NavigationBar();
         add(navigationBar);
 
-        welcomeMessage = new H1("My Chats");
+        H1 welcomeMessage = new H1("My Chats");
 
         welcomeMessage.getStyle().set("font-size", "24px");
         welcomeMessage.getStyle().set("font-weight", "bold");
@@ -162,27 +155,12 @@ public class ChatsView extends VerticalLayout {
 
     private void openChatDialog(GroupChats chat) {
         Dialog chatDialog = new Dialog();
-//        chatDialog.setWidth("1000px");
-//        chatDialog.setHeight("1000px");
-//        chatDialog.setWidth("60%"); // Adjust width as needed
-//        chatDialog.setHeight("80%"); // Adjust height as needed
-//        chatDialog.getElement().getStyle().set("max-width", "1000px"); // Max width
-//        chatDialog.getElement().getStyle().set("overflow", "hidden");
-        chatDialog.setWidth("600px");
-        chatDialog.setHeight("70vh"); // 70% of the viewport height
+        chatDialog.setWidth("800px");
+        chatDialog.setHeight("80vh");
         chatDialog.setResizable(true);
 
-//        VerticalLayout chatContent = new VerticalLayout();
-//        chatContent.setWidthFull();
-//        chatContent.setHeightFull();
-////        chatContent.getStyle().set("overflow-y", "auto");
-//        chatContent.setPadding(false);
-//        chatContent.setSpacing(false);
-//        chatContent.getStyle().set("overflow-y", "auto"); // Enable vertical scrolling
-//        chatContent.setHeight("calc(100% - 100px)");
-
         Div messagesContainer = new Div();
-        messagesContainer.setHeight("calc(100% - 120px)"); // Reserve space for the input area
+        messagesContainer.setHeight("calc(100% - 150px)");
         messagesContainer.getStyle().set("overflow-y", "auto");
         messagesContainer.setWidthFull();
         messagesContainer.addClassName("messages-container");
@@ -190,14 +168,13 @@ public class ChatsView extends VerticalLayout {
         List<ChatMessages> messages = chatsController.getMessagesByChat(chat.getId());
         System.out.println("mensajes= " + messages);
 
-        welcomeMessage2 = new H3("Chat: " + chat.getChatName());
+        H3 welcomeMessage2 = new H3("Chat: " + chat.getChatName());
 
         welcomeMessage2.getStyle().set("font-size", "24px");
         welcomeMessage2.getStyle().set("font-weight", "bold");
         welcomeMessage2.getStyle().set("color", "dark-grey");
         welcomeMessage2.getStyle().set("text-align", "left");
         welcomeMessage2.getStyle().set("margin-bottom", "20px");
-//        chatDialog.add(welcomeMessage2);
 
 
         if(messages != null && !messages.isEmpty()){
@@ -205,9 +182,6 @@ public class ChatsView extends VerticalLayout {
                 messagesContainer.add(createMessageComponent(message, currentUser, false));
             }
         }
-
-//        chatDialog.add(chatContent);
-
 
         // Add text area and send button for sending messages
         TextArea messageInput = new TextArea();
@@ -241,16 +215,9 @@ public class ChatsView extends VerticalLayout {
 
 
         HorizontalLayout messageInputLayout = new HorizontalLayout(messageInput, sendButton);
-//        messageInputLayout.setWidthFull();
         messageInputLayout.setWidthFull();
-//        messageInputLayout.setPadding(true);
         messageInputLayout.setAlignItems(FlexComponent.Alignment.END);
         messageInputLayout.setSpacing(true);
-//
-//        Div spacer2 = new Div();
-//        spacer2.setHeight("10px");
-
-//        chatDialog.add(spacer2);
 
         HorizontalLayout footerLayout = new HorizontalLayout(messageInputLayout);
         footerLayout.setWidthFull();
