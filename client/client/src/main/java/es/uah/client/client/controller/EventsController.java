@@ -1,11 +1,7 @@
 package es.uah.client.client.controller;
 
-import es.uah.client.client.model.Event;
-import es.uah.client.client.model.Subscription;
-import es.uah.client.client.model.User;
-import es.uah.client.client.service.IEventsService;
-import es.uah.client.client.service.ISubscriptionsService;
-import es.uah.client.client.service.IUploadImageService;
+import es.uah.client.client.model.*;
+import es.uah.client.client.service.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +23,12 @@ public class EventsController {
 
     @Autowired
     ISubscriptionsService subscriptionsService;
+
+    @Autowired
+    IChatMessagesService chatMessagesService;
+
+    @Autowired
+    IGroupChatsService groupChatsService;
 
     public List<Event> findAll() {
         return eventsService.findAll();
@@ -81,6 +83,16 @@ public class EventsController {
             System.out.println("Unsubscribing from: " + a);
             subscriptionsService.deleteSubscription(a.getId());
         }
+
+        GroupChats g = groupChatsService.findGroupChatsByIdEvent(event);
+        List<ChatMessages> c = chatMessagesService.findChatMessagesByIdChat(g.getId());
+        for(ChatMessages i : c){
+            System.out.println("Deleting msg " + i.getTextMsg());
+            chatMessagesService.deleteChatMessages(i.getId());
+        }
+
+        groupChatsService.deleteGroupChats(g.getId());
+
         eventsService.deleteEvents(event);
     }
 

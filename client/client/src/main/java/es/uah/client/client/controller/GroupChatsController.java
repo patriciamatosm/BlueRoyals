@@ -76,7 +76,7 @@ public class GroupChatsController {
         List<GroupChats> chats = new ArrayList<>();
         for (Event e : events){
             GroupChats gc = groupChatsService.findGroupChatsByIdEvent(e.getId());
-            chats.add(gc);
+            if(gc != null) chats.add(gc);
         }
         return chats;
     }

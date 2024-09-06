@@ -7,6 +7,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -63,6 +64,8 @@ public class ChatsView extends VerticalLayout {
     }
 
     private void refreshChats(){
+        removeAll();
+
         currentUser = VaadinSession.getCurrent().getAttribute(User.class);
 
         NavigationBar navigationBar = new NavigationBar();
@@ -92,20 +95,37 @@ public class ChatsView extends VerticalLayout {
 
         contentLayout.add(spacer);
 
-        Grid<GroupChats> chatGrid = new Grid<>(GroupChats.class, false);
-        chatGrid.addColumn(GroupChats::getChatName).setHeader("Chat Name");
-        chatGrid.addColumn(chat -> eventsController.findEventsById(chat.getIdEvent()).getEventName()).setHeader("Event");
-        chatGrid.addComponentColumn(chat -> new Button("Open Chat", click -> openChatDialog(chat)))
-                .setHeader("Actions");
+
 
 
         List<Event> events = eventsController.findEventsByUser(currentUser);
 
-        System.out.println("here");
         List<GroupChats> userChats = chatsController.getChatByEvent(events);
-        chatGrid.setItems(userChats);
 
-        contentLayout.add(chatGrid);
+        try {
+            Grid<GroupChats> chatGrid = new Grid<>(GroupChats.class, false);
+            chatGrid.addColumn(GroupChats::getChatName).setHeader("Chat Name");
+            chatGrid.addColumn(chat -> eventsController.findEventsById(chat.getIdEvent()).getEventName()).setHeader("Event");
+            chatGrid.addComponentColumn(chat -> new Button("Open Chat", click -> openChatDialog(chat)))
+                    .setHeader("Actions");
+
+            chatGrid.setItems(userChats);
+            contentLayout.add(chatGrid);
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
+
+            Div noEventsMessageContainer = new Div();
+            noEventsMessageContainer.getStyle().set("text-align", "center");
+            noEventsMessageContainer.getStyle().set("margin", "20px 0");
+
+            Span noEventsMessage = new Span("No chats found.");
+            noEventsMessage.getStyle().set("font-size", "18px");
+            noEventsMessage.getStyle().set("color", "#ff0000");
+            noEventsMessage.getStyle().set("font-weight", "bold");
+
+            noEventsMessageContainer.add(noEventsMessage);
+            contentLayout.add(noEventsMessageContainer);
+        }
 
         add(contentLayout);
     }
