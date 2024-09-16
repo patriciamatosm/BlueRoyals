@@ -157,7 +157,7 @@ public class CreateEvent extends VerticalLayout {
             maxUsers = Integer.parseInt(maxUsersField.getValue());
         }
 
-        if(name.isEmpty() || description.isEmpty() || location.isEmpty() || maxUsers == 0) {
+        if(name.isEmpty() || description.isEmpty() || location.isEmpty() || maxUsers == 0 || eventDate == null) {
             Notification.show("Please fill all of the fields.");
 
         } else {

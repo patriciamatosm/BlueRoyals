@@ -97,7 +97,7 @@ public class Subscriptions extends VerticalLayout  implements  AfterNavigationOb
         eventCreateUser.getStyle().set("margin-bottom", "10px");
 
         Div eventDate = new Div();
-        LocalDate eventLocalDate = event.getCreateDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // Convert Date to LocalDate
+        LocalDate eventLocalDate = event.getEventDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // Convert Date to LocalDate
         String formattedDate = formatDate(eventLocalDate);
         eventDate.setText("Event date: " + formattedDate);
 //        eventDate.setText("Event date: " + event.getCreateDate());
