@@ -324,7 +324,7 @@ public class Index extends VerticalLayout{
             System.out.println("Unsubscribing: " + s);
             subscriptionsController.unsubscribe(s);
             Notification.show("Unsubscribed from the event.");
-
+            refreshEvents();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             Notification.show("Failed to unsubscribe from the event.");
@@ -337,6 +337,7 @@ public class Index extends VerticalLayout{
             System.out.println(s.getIdEvent() + " " +  s.getIdUser());
             subscriptionsController.subscribe(s);
             Notification.show("Successfully subscribed to the event!");
+            refreshEvents();
         } catch (Exception e) {
             Notification.show("Failed to subscribe to the event.");
         }
