@@ -85,13 +85,16 @@ public class EventsController {
         }
 
         GroupChats g = groupChatsService.findGroupChatsByIdEvent(event);
-        List<ChatMessages> c = chatMessagesService.findChatMessagesByIdChat(g.getId());
-        for(ChatMessages i : c){
-            System.out.println("Deleting msg " + i.getTextMsg());
-            chatMessagesService.deleteChatMessages(i.getId());
+        if(g != null){
+            List<ChatMessages> c = chatMessagesService.findChatMessagesByIdChat(g.getId());
+            if(c != null){
+                for(ChatMessages i : c){
+                    System.out.println("Deleting msg " + i.getTextMsg());
+                    chatMessagesService.deleteChatMessages(i.getId());
+                }
+            }
+            groupChatsService.deleteGroupChats(g.getId());
         }
-
-        groupChatsService.deleteGroupChats(g.getId());
 
         eventsService.deleteEvents(event);
     }
